@@ -6,6 +6,8 @@ import { debounceTime } from 'rxjs/operators';
 import { ArticleService } from '../../features/articles/services/article.service';
 import { ArticleDto } from '../../features/articles/models/article.model';
 import { ArticleCardComponent } from '../../features/articles/ui/article-card/article-card.component';
+import { GenreDto } from '../../features/articles/models/genre.model';
+import { GenreService } from '../../features/articles/services/genre.service';
 
 @Component({
   selector: 'app-home',
@@ -15,11 +17,14 @@ import { ArticleCardComponent } from '../../features/articles/ui/article-card/ar
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly articleService = inject(ArticleService);
+  private readonly genreService = inject(GenreService);
+
   private readonly pageSize = 12;
   private currentPage = 0;
   private scrollSubscription?: Subscription;
 
   protected readonly articles = signal<ArticleDto[]>([]);
+  protected readonly genres = signal<GenreDto[]>([]);
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly hasMore = signal(true);
@@ -30,6 +35,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadNextPage();
+    this.getGenres();
+
+    console.log('Géneros cargados en HomeComponent:', this.genres());
   }
 
   ngAfterViewInit(): void {
@@ -123,5 +131,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.canScrollLeft.set(scrollLeft > 0);
     this.canScrollRight.set(scrollLeft + clientWidth < scrollWidth - 1);
+  }
+
+  private getGenres(): void {
+    this.genreService.getGenres().subscribe({
+      next: (genres) => this.genres.set(genres),
+      error: () => {
+        // Manejo de error si es necesario
+      }
+    });
   }
 }
