@@ -1,0 +1,17 @@
+<article class="article-card card text-bg-dark" *ngIf="article as data">
+  <div class="card-body">
+    <p class="article-card__meta text-uppercase small mb-2" *ngIf="data.author || data.createdAt">
+      <span *ngIf="data.author">{{ data.author }}</span>
+      <span *ngIf="data.author && data.createdAt" class="mx-1">·</span>
+      <span *ngIf="data.createdAt">{{ data.createdAt | date: 'd MMM y' }}</span>
+    </p>
+    <h2 class="card-title h4">{{ data.title }}</h2>
+    <p class="card-text">{{ buildPreview(data) }}</p>
+  </div>
+  <div class="card-footer border-0 bg-transparent pt-0">
+    <button type="button" class="btn btn-link text-warning text-decoration-none px-0">
+      Seguir leyendo
+      <span aria-hidden="true" class="ms-1">→</span>
+    </button>
+  </div>
+</article>
