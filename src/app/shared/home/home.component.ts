@@ -19,9 +19,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly articleService = inject(ArticleService);
   private readonly genreService = inject(GenreService);
 
-  private readonly pageSize = 12;
-  private currentPage = 0;
+  private readonly pageSize = 4;
   private scrollSubscription?: Subscription;
+  private actualGenreId: number | null = null;
 
   protected readonly articles = signal<ArticleDto[]>([]);
   protected readonly genres = signal<GenreDto[]>([]);
@@ -34,10 +34,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('scrollContainer', { static: false }) private readonly scrollContainer?: ElementRef<HTMLDivElement>;
 
   ngOnInit(): void {
-    this.loadNextPage();
     this.getGenres();
-
-    console.log('Géneros cargados en HomeComponent:', this.genres());
   }
 
   ngAfterViewInit(): void {
@@ -57,24 +54,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loading.set(true);
     this.error.set(null);
 
-    this.articleService
-      .getArticles({ page: this.currentPage, size: this.pageSize })
-      .pipe(finalize(() => this.loading.set(false)))
-      .subscribe({
-        next: (articleBatch) => {
-          this.articles.update((current) => [...current, ...articleBatch]);
-          this.currentPage += 1;
-
-          if (articleBatch.length < this.pageSize) {
-            this.hasMore.set(false);
-          }
-
-          setTimeout(() => this.updateScrollButtons(), 100);
-        },
-        error: () => {
-          this.error.set('No se pudo cargar el listado de artículos.');
-        }
-      });
+    this.getArticlesByGenre();
   }
 
   protected retry(): void {
@@ -135,10 +115,36 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private getGenres(): void {
     this.genreService.getGenres().subscribe({
-      next: (genres) => this.genres.set(genres),
+      next: (genres) => {
+        this.genres.set(genres);
+        this.actualGenreId = genres[0]?.id;
+        this.getGenreById(this.actualGenreId);
+        //Cargo acá porque depende de los generos
+        this.loadNextPage();
+      },
       error: () => {
         // Manejo de error si es necesario
       }
     });
   }
+
+  private getGenreById(id: number): GenreDto | undefined {
+    return this.genres().find(genre => genre.id === id);
+  }
+
+  private getArticlesByGenre(): void {
+    this.articleService.getArticles({ page: 0, size: this.pageSize, genreId: this.actualGenreId ?? undefined})
+      .subscribe({
+        next: (articleBatch: any) => {
+          const batch = articleBatch.content ?? [];
+          this.articles.set(batch);
+          this.hasMore.set(batch.length === this.pageSize);
+          this.loading.set(false);
+        },
+        error: () => {
+          this.error.set('No se pudo cargar el listado de artículos para el género seleccionado.');
+        }
+      });
+  }
+
 }

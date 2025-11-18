@@ -13,4 +13,5 @@ export interface ArticleQueryParams
   page?: number;
   size?: number;
   sort?: string | string[];
+  genreId?: number;
 }
