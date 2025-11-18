@@ -1,11 +1,15 @@
+import { UserDto } from "./user.model";
+
 export interface ArticleDto {
   id?: number;
   title: string;
   content: string;
   summary?: string;
-  author?: string;
+  author?: UserDto;
   createdAt?: string;
   updatedAt?: string;
+  description?: string;
+  cardImageUrl?: string;
 }
 
 export interface ArticleQueryParams

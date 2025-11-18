@@ -36,7 +36,6 @@ export abstract class BaseApiService {
       }
 
       httpParams = httpParams.set(key, String(value));
-      console.log(`Set param: ${key} = ${value}`);
     });
 
     return httpParams;

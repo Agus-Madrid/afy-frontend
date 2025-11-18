@@ -2,8 +2,8 @@
   <!-- Hero -->
   <header class="text-left mb-4 font-white text-white d-flex">
     <div class="hero-text col-6">
-      <small class="text-uppercase fw-semibold d-block mb-2">Genero</small>
-      <h1 class="display-6">Artículos sobre desarrollo</h1>
+      <small class="text-uppercase fw-semibold d-block mb-2">{{actualGenre?.genreType}}</small>
+      <h1 class="display-6">{{actualGenre?.name}}</h1>
     </div>
     <div class="navigators col-6 d-flex gap-4 justify-content-end align-items-end">
       <button type="button" class="btn btn-light shadow-sm" style="z-index: 10; width: 48px; height: 48px;" (click)="scrollLeft()" aria-label="Desplazar a la izquierda">
@@ -19,10 +19,10 @@
       </button>
     </div>
   </header>
-  <p class="text-white mb-4">Descripcion del genero</p>
+  <p class="text-white mb-4">{{actualGenre?.description}}</p>
 
   <div #scrollContainer 
-    class="d-flex flex-nowrap gap-3 overflow-auto pb-4"
+    class="d-flex flex-nowrap gap-3 pb-4"
     aria-label="Listado de artículos"
     aria-live="polite"
     [attr.aria-busy]="loading()"

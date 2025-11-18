@@ -3,17 +3,32 @@
 }
 
 .article-card {
+  position: relative;
+  overflow: hidden;
   min-height: 100%;
+  height: 30vh;
   border: none;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)) #141414;
   border-radius: 1rem;
   box-shadow: 0 25px 35px rgba(0, 0, 0, 0.35);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+.article-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 0;
+}
+
+.article-card .card-body,
+.article-card .card-footer {
+  position: relative;
+  z-index: 1;
+}
+
 .article-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 35px 45px rgba(0, 0, 0, 0.45);
 }
 
 .article-card__meta {
@@ -43,4 +58,3 @@
 .article-card .btn-link:hover span {
   transform: translateX(2px);
 }
-

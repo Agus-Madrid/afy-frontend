@@ -1,6 +1,6 @@
 ﻿import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
-import { finalize, fromEvent, Subscription } from 'rxjs';
+import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { ArticleService } from '../../features/articles/services/article.service';
@@ -8,6 +8,7 @@ import { ArticleDto } from '../../features/articles/models/article.model';
 import { ArticleCardComponent } from '../../features/articles/ui/article-card/article-card.component';
 import { GenreDto } from '../../features/articles/models/genre.model';
 import { GenreService } from '../../features/articles/services/genre.service';
+import { GenreType } from '../../features/articles/enum/genre-type.enum';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,8 @@ import { GenreService } from '../../features/articles/services/genre.service';
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
+  GenreType = GenreType;
+
   private readonly articleService = inject(ArticleService);
   private readonly genreService = inject(GenreService);
 
@@ -23,6 +26,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   private scrollSubscription?: Subscription;
   private actualGenreId: number | null = null;
 
+  protected actualGenre: GenreDto | undefined = undefined;
   protected readonly articles = signal<ArticleDto[]>([]);
   protected readonly genres = signal<GenreDto[]>([]);
   protected readonly loading = signal(false);
@@ -47,7 +51,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   protected loadNextPage(): void {
-    if (this.loading() || !this.hasMore() || this.error()) {
+    if (this.loading() || this.error()) {
       return;
     }
 
@@ -67,27 +71,32 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   protected scrollLeft(): void {
-    const container = this.scrollContainer?.nativeElement;
-    if (!container || !this.canScrollLeft()) return;
-
-    const scrollAmount = container.clientWidth * 0.8;
-    container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    this.prevGenre();
+    this.loadNextPage();
   }
 
   protected scrollRight(): void {
-    const container = this.scrollContainer?.nativeElement;
-    if (!container || !this.canScrollRight()) return;
+    this.nextGenre();
+    this.loadNextPage();
+  }
 
-    const scrollAmount = container.clientWidth * 0.8;
-    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    
-    // Cargar más artículos si estamos cerca del final
-    const { scrollLeft, scrollWidth, clientWidth } = container;
-    const scrolledPercentage = (scrollLeft + clientWidth) / scrollWidth;
-    
-    if (scrolledPercentage > 0.7 && this.hasMore() && !this.loading()) {
-      this.loadNextPage();
-    }
+  //TODO: Refactorizar estos dos métodos para no repetir código, que sean uno solo
+  protected nextGenre(): void {
+    const genres = this.genres();
+    if (genres.length === 0) return;
+
+    const currentIndex = this.findCurrentGenreIndex(genres);
+    const nextIndex = (currentIndex + 1) % genres.length;
+    this.setActiveGenreByIndex(nextIndex, genres);
+  }
+
+  protected prevGenre(): void {
+    const genres = this.genres();
+    if (genres.length === 0) return;
+
+    const currentIndex = this.findCurrentGenreIndex(genres);
+    const prevIndex = (currentIndex - 1 + genres.length) % genres.length;
+    this.setActiveGenreByIndex(prevIndex, genres);
   }
 
   protected onScroll(): void {
@@ -117,8 +126,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.genreService.getGenres().subscribe({
       next: (genres) => {
         this.genres.set(genres);
-        this.actualGenreId = genres[0]?.id;
-        this.getGenreById(this.actualGenreId);
+        this.setActiveGenreByIndex(0, genres);
         //Cargo acá porque depende de los generos
         this.loadNextPage();
       },
@@ -128,11 +136,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  private getGenreById(id: number): GenreDto | undefined {
-    return this.genres().find(genre => genre.id === id);
-  }
-
   private getArticlesByGenre(): void {
+    console.log('Cargando artículos para el género ID:', this.actualGenreId);
     this.articleService.getArticles({ page: 0, size: this.pageSize, genreId: this.actualGenreId ?? undefined})
       .subscribe({
         next: (articleBatch: any) => {
@@ -147,4 +152,24 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
+  private findCurrentGenreIndex(genres: GenreDto[]): number {
+    const index = genres.findIndex(genre => genre.id === this.actualGenreId);
+    return index === -1 ? 0 : index;
+  }
+
+  private setActiveGenreByIndex(targetIndex: number, sourceGenres: GenreDto[] = this.genres()): void {
+    if (sourceGenres.length === 0) {
+      this.actualGenreId = null;
+      this.actualGenre = undefined;
+      this.genreService.loadGenreImageUrl();
+      return;
+    }
+
+    const normalizedIndex = (targetIndex + sourceGenres.length) % sourceGenres.length;
+    const selectedGenre = sourceGenres[normalizedIndex];
+
+    this.actualGenreId = selectedGenre.id;
+    this.actualGenre = selectedGenre;
+    this.genreService.loadGenreImageUrl(selectedGenre.urlImage);
+  }
 }
