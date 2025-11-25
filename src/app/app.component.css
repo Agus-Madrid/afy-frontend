@@ -12,7 +12,7 @@
 
 .app-shell__overlay {
   min-height: 100vh;
-  background: linear-gradient(180deg, rgba(5, 5, 5, 0.65), rgba(5, 5, 5, 0.15));
+  background: linear-gradient(180deg, rgba(5, 5, 5, 0.15), rgb(5, 5, 5));
   backdrop-filter: blur(3px);
   display: flex;
   flex-direction: column;
@@ -27,6 +27,6 @@
 
 .app-shell__main {
   flex: 1;
-  padding: 2rem 0;
+  padding: 0;
   color: #fff;
 }

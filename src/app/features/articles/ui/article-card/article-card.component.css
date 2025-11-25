@@ -6,18 +6,19 @@
   position: relative;
   overflow: hidden;
   min-height: 100%;
-  height: 30vh;
+  height: 40vh;
   border: none;
   border-radius: 1rem;
-  box-shadow: 0 25px 35px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 25px 35px rgba(0, 0, 0, 0.185);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .article-card::before {
+  transition: all 300ms;
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.377);
   z-index: 0;
 }
 
@@ -29,6 +30,11 @@
 
 .article-card:hover {
   transform: translateY(-6px);
+  box-shadow: 0 35px 45px rgba(0, 0, 0, 0.25);
+}
+
+.article-card:hover::before {
+  background: rgba(0, 0, 0, 0.068);
 }
 
 .article-card__meta {
