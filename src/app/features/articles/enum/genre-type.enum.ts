@@ -1,0 +1,8 @@
+export enum GenreType {
+  NATURE = 'NATURE',
+  TECHNOLOGY = 'TECHNOLOGY',
+  ART = 'ART',
+  HISTORY = 'HISTORY',
+  SCIENCE = 'SCIENCE',
+  LITERATURE = 'LITERATURE'
+}
