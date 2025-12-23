@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { LoginFormComponent } from "../../presentation/login-form/login-form.component";
 import { LoginSubmitModel } from "../../models/login-submit.model";
 import { Router } from "@angular/router";
@@ -12,7 +12,7 @@ import { Router } from "@angular/router";
 
 export class LoginPageComponent {
 
-    constructor(private router: Router) {}
+    private readonly router = inject(Router);
 
     onLoginSubmit(event: LoginSubmitModel){
         // Handle login submission

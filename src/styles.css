@@ -1,6 +1,12 @@
 /* You can add global styles to this file. */
 @import "bootswatch/dist/lux/bootstrap.min.css";
 
+:root {
+  --layout-overlay-gradient: linear-gradient(180deg, rgba(5, 5, 5, 0.2), rgba(5, 5, 5, 0.85));
+  --layout-overlay-blur: 3px;
+  --layout-surface-bg: rgba(0, 0, 0, 0.6);
+}
+
 * {
   font-family: "Nunito Sans", sans-serif;
 }

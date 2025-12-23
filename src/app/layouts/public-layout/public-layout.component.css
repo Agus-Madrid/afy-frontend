@@ -12,17 +12,14 @@
 
 .app-shell__overlay {
   min-height: 100vh;
-  background: linear-gradient(180deg, rgba(5, 5, 5, 0.15), rgb(5, 5, 5));
-  backdrop-filter: blur(3px);
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+  background: var(--layout-overlay-gradient);
+  backdrop-filter: blur(var(--layout-overlay-blur));
 }
 
 .app-shell__section {
   display: block;
   width: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--layout-surface-bg);
 }
 
 .app-shell__main {

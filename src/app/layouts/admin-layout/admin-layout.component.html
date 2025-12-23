@@ -1,1 +1,9 @@
-<router-outlet></router-outlet>
+<div class="admin-shell" [style.background-image]="'url(' + (backgroundImage$ | async) + ')'">
+  <div class="admin-shell__overlay">
+    <div class="admin-shell__surface">
+      <main class="admin-shell__main">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  </div>
+</div>
