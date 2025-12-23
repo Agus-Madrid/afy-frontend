@@ -4,7 +4,7 @@ export const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: 'home',
-    loadComponent: () => import('./shared/home/home.component').then(m => m.HomeComponent),
+    loadComponent: () => import('./features/articles/containers/article-page/article-page.component').then(m => m.ArticlePageComponent),
     title: 'Inicio'
   },
   {

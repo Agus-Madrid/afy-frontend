@@ -3,9 +3,16 @@ import { of } from 'rxjs';
 
 import { ArticlePageComponent } from './article-page.component';
 import { ArticleService } from '../../services/article.service';
+import { GenreService } from '../../services/genre.service';
 
 class ArticleServiceStub {
   getArticles = jasmine.createSpy('getArticles').and.returnValue(of([]));
+}
+
+class GenreServiceStub {
+  backgroundImage$ = of('');
+  getGenres = jasmine.createSpy('getGenres').and.returnValue(of([]));
+  loadGenreImageUrl = jasmine.createSpy('loadGenreImageUrl');
 }
 
 describe('ArticlePageComponent', () => {
@@ -15,7 +22,10 @@ describe('ArticlePageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ArticlePageComponent],
-      providers: [{ provide: ArticleService, useClass: ArticleServiceStub }]
+      providers: [
+        { provide: ArticleService, useClass: ArticleServiceStub },
+        { provide: GenreService, useClass: GenreServiceStub }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ArticlePageComponent);
@@ -27,4 +37,3 @@ describe('ArticlePageComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
