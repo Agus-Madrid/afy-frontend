@@ -1,0 +1,8 @@
+<div class="app-shell" [style.background-image]="'url(' + (backgroundImage$ | async) + ')'">
+  <div class="app-shell__overlay">
+    <app-header class="app-shell__section app-shell__section--header"></app-header>
+    <main class="app-shell__section app-shell__main">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

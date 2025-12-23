@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.app-shell {
+  min-height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.app-shell__overlay {
+  min-height: 100vh;
+  background: linear-gradient(180deg, rgba(5, 5, 5, 0.15), rgb(5, 5, 5));
+  backdrop-filter: blur(3px);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.app-shell__section {
+  display: block;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.app-shell__main {
+  flex: 1;
+  padding: 0;
+  color: #fff;
+}
