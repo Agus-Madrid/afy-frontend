@@ -23,7 +23,7 @@
     <p class="text-white">{{actualGenre?.description}}</p>
   </div>
 
-  <h3 class="col-12 text-left fw-bold">
+  <h3 class="col-12 text-left fw-bold text-white" *ngIf="articles.length > 0">
     Top Articles
   </h3>
 
@@ -37,7 +37,7 @@
 
     <ng-template #emptyState>
       <div class="text-center text-body-secondary py-5 w-100" *ngIf="!loading() && !error()">
-        <p class="h5 mb-2">Aún no hay artículos publicados</p>
+        <p class="h5 mb-2 text-white">Aún no hay artículos publicados</p>
         <p class="mb-0">Cuando se publique el primero podrás leerlo aquí mismo.</p>
       </div>
     </ng-template>

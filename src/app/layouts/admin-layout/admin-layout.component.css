@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.admin-shell {
+  min-height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.admin-shell__overlay {
+  min-height: 100vh;
+  background: var(--layout-overlay-gradient);
+  backdrop-filter: blur(var(--layout-overlay-blur));
+}
+
+.admin-shell__main {
+  min-height: 100vh;
+}
+
+.admin-shell__surface {
+  background: var(--layout-surface-bg);
+}
