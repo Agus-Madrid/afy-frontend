@@ -28,6 +28,11 @@ export const appRoutes: Routes = [
         path: 'login',
         loadComponent: () => import('./features/login/containers/login-page/login-page.component').then(m => m.LoginPageComponent),
         title: 'Admin - Login'
+      },
+      {
+        path: 'home',
+        loadComponent: () => import('./features/admin/containers/admin-home/admin-home.component').then(m => m.AdminHomeComponent),
+        title: 'Admin - Home'
       }
     ]
   },
