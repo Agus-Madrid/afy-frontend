@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,8 +11,13 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
 
   private readonly router = inject(Router);
+  protected isMenuOpen = signal(false);
   
   handleLoginClick(): void {
     this.router.navigate(['/admin/login']);
+  }
+
+  toggleMenu(): void {
+    this.isMenuOpen.update((value) => !value);
   }
 }
