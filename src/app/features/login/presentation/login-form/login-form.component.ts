@@ -7,6 +7,7 @@ import { LoginSubmitModel } from "../../models/login-submit.model";
     standalone: true,
     imports: [ReactiveFormsModule],
     templateUrl: './login-form.component.html',
+    styleUrl: './login-form.component.css',
 })
 
 export class LoginFormComponent {
