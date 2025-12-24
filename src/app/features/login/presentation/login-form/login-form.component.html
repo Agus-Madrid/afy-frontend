@@ -1,17 +1,21 @@
-<div class="d-flex justify-content-center align-items-center " style="min-height: 100vh; width: 100%;">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" style="width: 600px;" class="d-flex gap-4 flex-column p-4 text-white">
+<div class="login-shell d-flex justify-content-center align-items-center">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-card d-flex gap-4 flex-column p-4 text-white rounded-3">
+        <div class="text-white">
+            <h1 class="login-title mb-1 text-white">Admin</h1>
+            <p class="mb-0">Acceso al panel de articulos</p>
+        </div>
         <fieldset>
             <div>
-                <label for="exampleInputEmail1" class="form-label mt-4">Email</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                <label for="exampleInputEmail1" class="form-label mt-3 text-white">Email</label>
+                <input type="email" class="form-control login-input" id="exampleInputEmail1" aria-describedby="emailHelp"
                     placeholder="Enter email" formControlName="email" autocomplete="off">
             </div>
             <div>
-                <label for="exampleInputPassword1" class="form-label mt-4">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                <label for="exampleInputPassword1" class="form-label mt-3 text-white">Password</label>
+                <input type="password" class="form-control login-input" id="exampleInputPassword1" placeholder="Password"
                     autocomplete="off" formControlName="password">
             </div>
         </fieldset>
-        <button type="submit" class="btn btn-light w-25 rounded-0" [disabled]="loginForm.invalid">Login</button>
+        <button type="submit" class="btn btn-light login-action w-100 rounded-0" [disabled]="loginForm.invalid">Entrar</button>
     </form>
 </div>

@@ -6,7 +6,7 @@
         <small class="text-uppercase fw-semibold d-block mb-2" style="letter-spacing: 1em;">{{actualGenre?.genreType}}</small>
         <h1 class="display-2 fw-bold" style="margin-left:-5px;">{{actualGenre?.name}}</h1>
       </div>
-      <div class="navigators col-5 d-flex gap-4 justify-content-end align-items-end">
+      <div class="navigators col-5 d-flex gap-4 justify-content-end align-items-end" *ngIf="articles.length > 0">
         <button type="button" class="btn btn-light border-0 d-flex justify-content-center flex-column align-items-center" style="z-index: 10; width: 48px; height: 48px; background-color: rgba(177, 168, 168, 0.384); backdrop-filter: blur(10px);" (click)="scrollLeft()" aria-label="Desplazar a la izquierda">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
