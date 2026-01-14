@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 
-import { ArticlePageComponent } from './containers/article-page/article-page.component';
+import { ArticleContainerComponent } from './containers/article-container/article-container.component';
 
 export const articlesRoutes: Routes = [
-  { path: '', component: ArticlePageComponent, title: 'Artículos' }
+  { path: '', component: ArticleContainerComponent, title: 'Artículos' }
   // { path: ':id', component: ArticleDetailPage, title: 'Detalle de artículo' },
 ];
 
