@@ -5,18 +5,18 @@ import { debounceTime } from 'rxjs/operators';
 
 import { ArticleService } from '../../services/article.service';
 import { ArticleDto } from '../../models/article.model';
-import { ArticleCardComponent } from '../../ui/article-card/article-card.component';
 import { GenreDto } from '../../models/genre.model';
 import { GenreService } from '../../services/genre.service';
 import { GenreType } from '../../enum/genre-type.enum';
+import { ArticlePageComponent } from '../../ui/article-page/article-page.component';
 
 @Component({
-  selector: 'app-article-page',
+  selector: 'app-article-container',
   standalone: true,
-  imports: [NgFor, NgIf, ArticleCardComponent],
-  templateUrl: './article-page.component.html'
+  imports: [ArticlePageComponent],
+  templateUrl: './article-container.component.html'
 })
-export class ArticlePageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ArticleContainerComponent implements OnInit, AfterViewInit, OnDestroy {
   GenreType = GenreType;
 
   private readonly articleService = inject(ArticleService);
@@ -64,10 +64,6 @@ export class ArticlePageComponent implements OnInit, AfterViewInit, OnDestroy {
   protected retry(): void {
     this.error.set(null);
     this.loadNextPage();
-  }
-
-  protected trackArticleById(_index: number, article: ArticleDto): number | string {
-    return article.id ?? `${article.title}-${article.createdAt ?? _index}`;
   }
 
   protected scrollLeft(): void {

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
-import { ArticlePageComponent } from './article-page.component';
+import { ArticleContainerComponent } from './article-container.component';
 import { ArticleService } from '../../services/article.service';
 import { GenreService } from '../../services/genre.service';
 
@@ -15,20 +15,20 @@ class GenreServiceStub {
   loadGenreImageUrl = jasmine.createSpy('loadGenreImageUrl');
 }
 
-describe('ArticlePageComponent', () => {
-  let component: ArticlePageComponent;
-  let fixture: ComponentFixture<ArticlePageComponent>;
+describe('ArticleContainerComponent', () => {
+  let component: ArticleContainerComponent;
+  let fixture: ComponentFixture<ArticleContainerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ArticlePageComponent],
+      imports: [ArticleContainerComponent],
       providers: [
         { provide: ArticleService, useClass: ArticleServiceStub },
         { provide: GenreService, useClass: GenreServiceStub }
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ArticlePageComponent);
+    fixture = TestBed.createComponent(ArticleContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

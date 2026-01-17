@@ -10,7 +10,7 @@ export const appRoutes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
-        loadComponent: () => import('./features/articles/containers/article-page/article-page.component').then(m => m.ArticlePageComponent),
+        loadComponent: () => import('./features/articles/containers/article-container/article-container.component').then(m => m.ArticleContainerComponent),
         title: 'Inicio'
       },
       {
