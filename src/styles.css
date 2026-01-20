@@ -10,3 +10,25 @@
 * {
   font-family: "Nunito Sans", sans-serif;
 }
+
+.content {
+  --bs-heading-color: #fff;
+}
+
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+  color: #fff !important;
+}
+
+.content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.content a {
+  color: #ffc107;
+}
