@@ -1,3 +1,4 @@
+import { GenreDto } from "./genre.model";
 import { UserDto } from "./user.model";
 
 export interface ArticleDto {
@@ -10,6 +11,7 @@ export interface ArticleDto {
   updatedAt?: string;
   description?: string;
   cardImageUrl?: string;
+  genre?: GenreDto;
 }
 
 export interface ArticleQueryParams
