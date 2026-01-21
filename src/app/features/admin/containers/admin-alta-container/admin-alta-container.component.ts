@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
+import { AdminAltaUiComponent } from '../../ui/admin-alta-ui/admin-alta-ui.component';
 
 @Component({
   selector: 'app-admin-alta-container',
   standalone: true,
-  imports: [],
-  template: `<p>admin-alta-container works!</p>`,
+  imports: [AdminAltaUiComponent],
+  templateUrl: './admin-alta-container.component.html',
   styleUrl: './admin-alta-container.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminAltaContainerComponent { }

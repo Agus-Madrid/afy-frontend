@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, inject } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-admin-home-ui",
@@ -7,5 +8,9 @@ import { Component } from "@angular/core";
 })
 
 export class AdminHomeUiComponent {
+    private readonly router = inject(Router);
     
+    navigateToAlta(): void {
+        this.router.navigate(['/admin/alta']);
+    }
 }

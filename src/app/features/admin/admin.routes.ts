@@ -11,5 +11,10 @@ export const routes: Routes = [
         path: 'home',
         loadComponent: () => import('./containers/admin-home-container/admin-home-container.component').then(m => m.AdminHomeContainerComponent),
         title: 'Admin - Home'
+      },
+      {
+        path: 'alta',
+        loadComponent: () => import('./containers/admin-alta-container/admin-alta-container.component').then(m => m.AdminAltaContainerComponent),
+        title: 'Admin - Alta'
       }
 ];

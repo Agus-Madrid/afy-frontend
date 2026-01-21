@@ -1,5 +1,6 @@
 /* You can add global styles to this file. */
 @import "bootswatch/dist/lux/bootstrap.min.css";
+@import '@toast-ui/editor/dist/toastui-editor.css';
 
 :root {
   --layout-overlay-gradient: linear-gradient(180deg, rgba(5, 5, 5, 0.2), rgba(5, 5, 5, 0.85));
