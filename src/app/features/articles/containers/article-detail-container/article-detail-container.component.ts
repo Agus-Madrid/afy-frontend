@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { ArticleDetailPageComponent } from "../../ui/article-detail-page/article-detail-page.component";
+import { ArticleDetailUiComponent } from "../../ui/article-detail-ui/article-detail-ui.component";
 import { ArticleDto } from "../../models/article.model";
 import { ArticleService } from "../../services/article.service";
 import { ActivatedRoute } from "@angular/router";
@@ -8,7 +8,7 @@ import { ActivatedRoute } from "@angular/router";
     selector: "app-article-detail-container",
     standalone: true,
     templateUrl: "./article-detail-container.component.html",
-    imports: [ArticleDetailPageComponent]
+    imports: [ArticleDetailUiComponent]
 })
 
 export class ArticleDetailContainerComponent implements OnInit{

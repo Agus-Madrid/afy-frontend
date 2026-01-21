@@ -5,13 +5,13 @@ import { ArticleDto } from '../../models/article.model';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-article-card',
+  selector: 'app-article-card-ui',
   standalone: true,
   imports: [NgIf, DatePipe, NgStyle],
-  templateUrl: './article-card.component.html',
-  styleUrl: './article-card.component.css'
+  templateUrl: './article-card-ui.component.html',
+  styleUrl: './article-card-ui.component.css'
 })
-export class ArticleCardComponent {
+export class ArticleCardUiComponent {
   @Input({ required: true }) article!: ArticleDto;
 
   router = inject(Router);

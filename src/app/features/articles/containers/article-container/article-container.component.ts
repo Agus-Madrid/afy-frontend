@@ -5,12 +5,12 @@ import { ArticleDto } from '../../models/article.model';
 import { GenreDto } from '../../models/genre.model';
 import { GenreService } from '../../services/genre.service';
 import { GenreType } from '../../enum/genre-type.enum';
-import { ArticlePageComponent } from '../../ui/article-page/article-page.component';
+import { ArticleUiComponent } from '../../ui/article-ui/article-ui.component';
 
 @Component({
   selector: 'app-article-container',
   standalone: true,
-  imports: [ArticlePageComponent],
+  imports: [ArticleUiComponent],
   templateUrl: './article-container.component.html'
 })
 export class ArticleContainerComponent implements OnInit {

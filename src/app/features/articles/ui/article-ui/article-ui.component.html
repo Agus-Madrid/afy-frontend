@@ -31,7 +31,7 @@
 
     <ng-container *ngIf="articles()?.length; else emptyState">
       <div class="flex-shrink-0" *ngFor="let article of articles(); trackBy: trackArticleById" style="width: 20rem;">
-        <app-article-card [article]="article"></app-article-card>
+        <app-article-card-ui [article]="article"></app-article-card-ui>
       </div>
     </ng-container>
 
