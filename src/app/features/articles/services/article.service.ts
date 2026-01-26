@@ -15,6 +15,10 @@ export class ArticleService extends BaseApiService {
     return this.http.get<ArticleDto[]>(this.buildUrl(this.resourcePath), { params });
   }
 
+  getArticleById(id: number): Observable<ArticleDto> {
+    return this.http.get<ArticleDto>(this.buildUrl(`${this.resourcePath}/${id}`));
+  }
+
   createArticle(article: ArticleDto): Observable<ArticleDto> {
     return this.http.post<ArticleDto>(this.buildUrl(this.resourcePath), article);
   }

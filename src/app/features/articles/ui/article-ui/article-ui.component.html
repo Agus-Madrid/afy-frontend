@@ -1,19 +1,19 @@
-<section class="container py-5" style="min-height: 100vh;">
+<section class="container py-5 article-page">
   <!-- Hero -->
-  <div class="hero" style="margin-bottom: 13vh; max-height: 172px;">
-    <header class="text-left mb-4 font-white text-white d-flex">
+  <div class="hero" style="margin-bottom: 9vh; max-height: 172px;">
+    <header class="text-left mb-2 font-white text-white d-flex">
       <div class="hero-text col-7">
         <small class="text-uppercase fw-semibold d-block mb-2" style="letter-spacing: 1em;">{{actualGenre()?.genreType}}</small>
-        <h1 class="display-2 fw-bold" style="margin-left:-5px;">{{actualGenre()?.name}}</h1>
+        <h1 class="display-2 fw-bold text-white" style="margin-left:-5px;">{{actualGenre()?.name}}</h1>
       </div>
       <div class="navigators col-5 d-flex gap-4 justify-content-end align-items-end" *ngIf="(articles()?.length ?? 0) > 0">
-        <button type="button" class="btn btn-light border-0 d-flex justify-content-center flex-column align-items-center" style="z-index: 10; width: 48px; height: 48px; background-color: rgba(177, 168, 168, 0.384); backdrop-filter: blur(10px);" (click)="scrollLeft.emit()" aria-label="Desplazar a la izquierda">
+        <button type="button" class="btn btn-light border-0 d-flex justify-content-center flex-column align-items-center" style="z-index: 10; width: 48px; height: 48px; background-color: rgba(177, 168, 168, 0.384); backdrop-filter: blur(10px);" (click)="prevGenre.emit()" aria-label="Genero anterior">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
           </svg>
         </button>
 
-        <button type="button" class="btn btn-light border-0 d-flex justify-content-center flex-column align-items-center" style="z-index: 10; width: 48px; height: 48px; background-color: rgba(177, 168, 168, 0.384); backdrop-filter: blur(10px);" (click)="scrollRight.emit()" aria-label="Desplazar a la derecha">
+        <button type="button" class="btn btn-light border-0 d-flex justify-content-center flex-column align-items-center" style="z-index: 10; width: 48px; height: 48px; background-color: rgba(177, 168, 168, 0.384); backdrop-filter: blur(10px);" (click)="nextGenre.emit()" aria-label="Genero siguiente">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
           </svg>
@@ -27,11 +27,11 @@
     Top Articles
   </h3>
 
-  <div #scrollContainer class="d-flex flex-nowrap gap-3 pb-4" aria-label="Listado de artículos" aria-live="polite" [attr.aria-busy]="loading()" (scroll)="onScroll.emit()" style="scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none; margin-top: 4rem;">
+  <div class="d-flex flex-nowrap gap-3 pb-4" aria-label="Listado de artículos" aria-live="polite" [attr.aria-busy]="loading()" style="scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none; margin-top: 2rem;">
 
     <ng-container *ngIf="articles()?.length; else emptyState">
       <div class="flex-shrink-0" *ngFor="let article of articles(); trackBy: trackArticleById" style="width: 20rem;">
-        <app-article-card [article]="article"></app-article-card>
+        <app-article-card-ui [article]="article"></app-article-card-ui>
       </div>
     </ng-container>
 
@@ -44,7 +44,7 @@
   </div>
 
   <!-- Loading -->
-  <div class="text-center my-3" *ngIf="loading()" role="status">
+  <div class="text-center my-2" *ngIf="loading()" role="status">
     <span class="spinner-border spinner-border-sm align-text-top me-2" aria-hidden="true"></span>
     <span>Cargando artículos...</span>
   </div>

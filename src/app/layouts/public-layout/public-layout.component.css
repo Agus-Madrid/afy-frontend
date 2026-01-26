@@ -10,10 +10,21 @@
   background-position: center;
 }
 
+.app-shell--home {
+  height: 100vh;
+  overflow: hidden;
+}
+
 .app-shell__overlay {
   min-height: 100vh;
   background: var(--layout-overlay-gradient);
   backdrop-filter: blur(var(--layout-overlay-blur));
+}
+
+.app-shell--home .app-shell__overlay {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .app-shell__section {
@@ -22,8 +33,17 @@
   background: var(--layout-surface-bg);
 }
 
+.app-shell--home .app-shell__section--header {
+  flex: 0 0 auto;
+}
+
 .app-shell__main {
   flex: 1;
   padding: 0;
   color: #fff;
+}
+
+.app-shell--home .app-shell__main {
+  min-height: 0;
+  overflow: hidden;
 }

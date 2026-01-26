@@ -1,17 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { DatePipe, NgIf, NgStyle } from '@angular/common';
 
 import { ArticleDto } from '../../models/article.model';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-article-card',
+  selector: 'app-article-card-ui',
   standalone: true,
   imports: [NgIf, DatePipe, NgStyle],
-  templateUrl: './article-card.component.html',
-  styleUrl: './article-card.component.css'
+  templateUrl: './article-card-ui.component.html',
+  styleUrl: './article-card-ui.component.css'
 })
-export class ArticleCardComponent  {
+export class ArticleCardUiComponent {
   @Input({ required: true }) article!: ArticleDto;
+
+  router = inject(Router);
 
   protected buildPreview(article: ArticleDto): string {
     const summary = article.description?.trim();
@@ -25,6 +28,12 @@ export class ArticleCardComponent  {
     }
 
     return `${content.slice(0, 220).trimEnd()}…`;
+  }
+
+  protected navigateToArticle(): void {
+    if (this.article.id) {
+      this.router.navigate(['/articles', this.article.id]);
+    }
   }
 }
 

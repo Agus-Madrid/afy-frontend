@@ -1,29 +1,25 @@
-﻿import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject, signal } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
-import { fromEvent, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+﻿import { Component, OnInit, inject, signal } from '@angular/core';
 
 import { ArticleService } from '../../services/article.service';
 import { ArticleDto } from '../../models/article.model';
 import { GenreDto } from '../../models/genre.model';
 import { GenreService } from '../../services/genre.service';
 import { GenreType } from '../../enum/genre-type.enum';
-import { ArticlePageComponent } from '../../ui/article-page/article-page.component';
+import { ArticleUiComponent } from '../../ui/article-ui/article-ui.component';
 
 @Component({
   selector: 'app-article-container',
   standalone: true,
-  imports: [ArticlePageComponent],
+  imports: [ArticleUiComponent],
   templateUrl: './article-container.component.html'
 })
-export class ArticleContainerComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ArticleContainerComponent implements OnInit {
   GenreType = GenreType;
 
   private readonly articleService = inject(ArticleService);
   private readonly genreService = inject(GenreService);
 
   private readonly pageSize = 4;
-  private scrollSubscription?: Subscription;
   private actualGenreId: number | null = null;
 
   protected actualGenre: GenreDto | undefined = undefined;
@@ -32,22 +28,9 @@ export class ArticleContainerComponent implements OnInit, AfterViewInit, OnDestr
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly hasMore = signal(true);
-  protected readonly canScrollLeft = signal(false);
-  protected readonly canScrollRight = signal(false);
-
-  @ViewChild('scrollContainer', { static: false }) private readonly scrollContainer?: ElementRef<HTMLDivElement>;
 
   ngOnInit(): void {
     this.getGenres();
-  }
-
-  ngAfterViewInit(): void {
-    this.updateScrollButtons();
-    this.setupScrollListener();
-  }
-
-  ngOnDestroy(): void {
-    this.scrollSubscription?.unsubscribe();
   }
 
   protected loadNextPage(): void {
@@ -66,16 +49,6 @@ export class ArticleContainerComponent implements OnInit, AfterViewInit, OnDestr
     this.loadNextPage();
   }
 
-  protected scrollLeft(): void {
-    this.prevGenre();
-    this.loadNextPage();
-  }
-
-  protected scrollRight(): void {
-    this.nextGenre();
-    this.loadNextPage();
-  }
-
   //TODO: Refactorizar estos dos métodos para no repetir código, que sean uno solo
   protected nextGenre(): void {
     const genres = this.genres();
@@ -84,6 +57,7 @@ export class ArticleContainerComponent implements OnInit, AfterViewInit, OnDestr
     const currentIndex = this.findCurrentGenreIndex(genres);
     const nextIndex = (currentIndex + 1) % genres.length;
     this.setActiveGenreByIndex(nextIndex, genres);
+    this.loadNextPage();
   }
 
   protected prevGenre(): void {
@@ -93,29 +67,7 @@ export class ArticleContainerComponent implements OnInit, AfterViewInit, OnDestr
     const currentIndex = this.findCurrentGenreIndex(genres);
     const prevIndex = (currentIndex - 1 + genres.length) % genres.length;
     this.setActiveGenreByIndex(prevIndex, genres);
-  }
-
-  protected onScroll(): void {
-    this.updateScrollButtons();
-  }
-
-  private setupScrollListener(): void {
-    const container = this.scrollContainer?.nativeElement;
-    if (!container) return;
-
-    this.scrollSubscription = fromEvent(container, 'scroll')
-      .pipe(debounceTime(100))
-      .subscribe(() => this.updateScrollButtons());
-  }
-
-  private updateScrollButtons(): void {
-    const container = this.scrollContainer?.nativeElement;
-    if (!container) return;
-
-    const { scrollLeft, scrollWidth, clientWidth } = container;
-
-    this.canScrollLeft.set(scrollLeft > 0);
-    this.canScrollRight.set(scrollLeft + clientWidth < scrollWidth - 1);
+    this.loadNextPage();
   }
 
   private getGenres(): void {

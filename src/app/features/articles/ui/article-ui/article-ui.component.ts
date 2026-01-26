@@ -2,16 +2,17 @@ import { NgFor, NgIf } from "@angular/common";
 import { Component, input, output } from "@angular/core";
 import { ArticleDto } from "../../models/article.model";
 import { GenreDto } from "../../models/genre.model";
-import { ArticleCardComponent } from "../article-card/article-card.component";
+import { ArticleCardUiComponent } from "../article-card-ui/article-card-ui.component";
 
 @Component({
-    selector: "app-article-page",
+    selector: "app-article-ui",
     standalone: true,
-    imports: [NgFor, NgIf, ArticleCardComponent],
-    templateUrl: "./article-page.component.html"
+    imports: [NgFor, NgIf, ArticleCardUiComponent],
+    templateUrl: "./article-ui.component.html",
+    styleUrl: "./article-ui.component.css"
 })
 
-export class ArticlePageComponent {
+export class ArticleUiComponent {
     articles = input<ArticleDto[]>();
     loading = input<boolean>();
     genres = input<GenreDto[]>();
@@ -19,9 +20,8 @@ export class ArticlePageComponent {
     actualGenre = input<GenreDto>();
 
     retry = output<void>();
-    onScroll = output<void>();
-    scrollRight = output<void>();
-    scrollLeft = output<void>();
+    nextGenre = output<void>();
+    prevGenre = output<void>();
 
 
     protected trackArticleById(_index: number, article: ArticleDto): number | string {
