@@ -29,7 +29,7 @@ export class AdminAltaContainerComponent implements OnInit {
     content: ['', Validators.required],
     cardImage: [null, Validators.required],
     description: ['', Validators.required],
-    status: ['draft', Validators.required]
+    status: ['DRAFT', Validators.required]
   })
 
   ngOnInit(): void {
