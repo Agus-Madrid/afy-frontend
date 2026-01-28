@@ -30,7 +30,6 @@ export class EditorComponent implements AfterViewInit{
 
   guardarArticulo() {
     const markdown = this.editor.getMarkdown();
-    console.log(markdown);
     this.contenidoGuardado.emit(markdown);
   }
 }

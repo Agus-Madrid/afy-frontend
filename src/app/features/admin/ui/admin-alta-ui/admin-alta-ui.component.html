@@ -4,7 +4,7 @@
       <h1 class="h3 mb-1 text-white">Alta</h1>
       <p class="text-white-50 mb-0">Vista básica de alta</p>
     </div>
-    <button class="btn btn-primary">Volver</button>
+    <button class="btn btn-primary" (click)="volver()">Volver</button>
   </div>
 
   <div class="row g-3">
@@ -18,23 +18,52 @@
   </div>
 
   <div class="card mt-4">
-    <div class="card-header">Titulo</div>
-    <div class="card-body"><input type="text" class="form-control" /></div>
-    <div class="card-header">Descripción</div>
-    <div class="card-body"><input type="text" class="form-control" /></div>
-    <div class="card-header">Imagen de la card</div>
-    <div class="card-body"><input type="file" id="archivo" name="archivo" accept="image/png, image/jpeg, image/webp" class="form-control" (change)="manageSelectionChange($event)"></div>
-    <div class="card-header">Estado</div>
-    <div class="card-body">
-      <select class="form-select">
-        <option>Borrador</option>
-        <option>Publicado</option>
-        <option>Archivado</option>
-      </select>
-    </div>
-    <div class="card-header">Contenido</div>
-    <div class="card-body">
-        <app-editor></app-editor>
-    </div>
+    <form [formGroup]="formGroup()!">
+
+      <div class="card-header">Titulo</div>
+      <div class="card-body">
+        <input type="text" class="form-control" formControlName="title" [class.is-invalid]="campoInvalidoLocal('title')" />
+        <span class="text-danger" *ngIf="campoInvalidoLocal('title')">El título es obligatorio.</span>
+      </div>
+
+      <div class="card-header">Descripción</div>
+      <div class="card-body">
+        <input type="text" class="form-control" formControlName="description" [class.is-invalid]="campoInvalidoLocal('description')" />
+        <span class="text-danger" *ngIf="campoInvalidoLocal('description')">La descripción es obligatoria.</span>
+      </div>
+
+      <div class="card-header">Imagen de la card</div>
+      <div class="card-body">
+        <input
+          #fileSelector
+          type="file" id="archivo" name="archivo" 
+          accept="image/png, image/jpeg, image/webp"
+          class="form-control" (change)="manageSelectionChange($event)" [class.is-invalid]="campoInvalidoLocal('cardImage')" />
+          <span class="text-danger" *ngIf="campoInvalidoLocal('cardImage')">La imagen es obligatoria.</span>
+        </div>
+
+      <div class="card-header">Estado</div>
+      <div class="card-body">
+        <select class="form-select" formControlName="status" [class.is-invalid]="campoInvalidoLocal('status')">
+          <option value="DRAFT">Borrador</option>
+          <option value="PUBLISHED">Publicado</option>
+          <option value="ARCHIVED">Archivado</option>
+        </select>
+        <span class="text-danger" *ngIf="campoInvalidoLocal('status')">El estado es obligatorio.</span>
+      </div>
+
+      <div class="card-header">Género</div>
+      <div class="card-body">
+        <select class="form-select" formControlName="genre" [class.is-invalid]="campoInvalidoLocal('genre')">
+          <option *ngFor="let genre of genres()" [value]="genre.id">{{ genre.name }}</option>
+        </select>
+        <span class="text-danger" *ngIf="campoInvalidoLocal('genre')">El género es obligatorio.</span>
+      </div>
+
+      <div class="card-header">Contenido</div>
+      <div class="card-body">
+        <app-editor (contenidoGuardado)="emitirEventoGuardado($event)"></app-editor>
+      </div>
+    </form>
   </div>
 </section>

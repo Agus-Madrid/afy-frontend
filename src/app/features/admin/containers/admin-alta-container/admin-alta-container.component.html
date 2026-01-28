@@ -1,1 +1,8 @@
-<app-admin-alta-ui></app-admin-alta-ui>
+<app-admin-alta-ui 
+    [formGroup]="articleForm"
+    [genres]="genres"
+    (guardarContenidoArticulo)="onGuardarArticulo($event)"
+    (guardarImagenEvento)="guardarImagenEvento($event)"
+    (limpiarFileSelected)="limpiarFormulario($event)"
+>
+</app-admin-alta-ui>

@@ -1,36 +1,45 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, input, output } from "@angular/core";
 import { EditorComponent } from "../../../../shared/editor/editor";
-import { ɵInternalFormsSharedModule } from "@angular/forms";
+import { FormGroup, ReactiveFormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
 import { StorageService } from "src/app/features/articles/services/storage.service";
+import { NgFor, NgIf } from "@angular/common";
+import { GenreDto } from "src/app/features/articles/models/genre.model";
 
 @Component({
     selector: "app-admin-alta-ui",
     standalone: true,
     templateUrl: "./admin-alta-ui.component.html",
     styleUrls: ["./admin-alta-ui.component.css"],
-    imports: [EditorComponent, ɵInternalFormsSharedModule]
+    imports: [EditorComponent, ɵInternalFormsSharedModule, ReactiveFormsModule, NgIf, NgFor]
 })
 
 export class AdminAltaUiComponent {
-    private readonly storageService = inject(StorageService);
-
+    formGroup = input<FormGroup>();
+    genres = input<GenreDto[]>();
+    fileSelected = output<Event>();
+    guardarContenidoArticulo = output<string>();
+    guardarImagenEvento = output<HTMLInputElement>();
+    limpiarFileSelected = output<HTMLInputElement>();
 
     manageSelectionChange(event: any): void {
         const input = event.target as HTMLInputElement;
         if(input.files?.length == 1)  {
-            const file = input.files[0];
-            console.log('Archivo seleccionado:', file.name);
-            this.storageService.store(file).subscribe({
-                next: (storedObject) => {
-                    console.log('Archivo almacenado con éxito:', storedObject);
-                },
-                error: (error) => {
-                    console.error('Error al almacenar el archivo:', error);
-                }
-            });
+            this.guardarImagenEvento.emit(input);
         }
-        else {
-            console.debug('No se seleccionó ningún archivo o se seleccionaron múltiples archivos.');
-        }
+    }
+
+    campoInvalidoLocal(campo: string): boolean {
+        const control = this.formGroup()?.get(campo);
+        return control ? control.invalid && control.touched : false;
+    }
+
+    emitirEventoGuardado(markdown: string): void {
+        const inputFile = document.querySelector('#archivo') as HTMLInputElement;
+        this.guardarContenidoArticulo.emit(markdown);
+        this.limpiarFileSelected.emit(inputFile);
+    }
+
+    volver(): void {
+        globalThis.history.back();
     }
 }
