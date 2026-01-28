@@ -85,7 +85,6 @@ export class ArticleContainerComponent implements OnInit {
   }
 
   private getArticlesByGenre(): void {
-    console.log('Cargando artículos para el género ID:', this.actualGenreId);
     this.articleService.getArticles({ page: 0, size: this.pageSize, genreId: this.actualGenreId ?? undefined})
       .subscribe({
         next: (articleBatch: any) => {
