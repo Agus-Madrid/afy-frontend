@@ -2,6 +2,7 @@
 @import "bootswatch/dist/lux/bootstrap.min.css";
 @import '@toast-ui/editor/dist/toastui-editor.css';
 
+
 :root {
   --layout-overlay-gradient: linear-gradient(180deg, rgba(5, 5, 5, 0.2), rgba(5, 5, 5, 0.85));
   --layout-overlay-blur: 3px;
@@ -155,3 +156,13 @@
 .text-dark-emphasis {
   color: var(--bs-dark-text-emphasis) !important;
 }
+
+.toast-container .ngx-toastr {
+  border-radius: 8px;
+  box-shadow: none !important;
+}
+
+.toast-success { background-color: #16a34a; }
+.toast-error   { background-color: #dc2626; }
+.toast-warning { background-color: #f59e0b; }
+.toast-info    { background-color: #0ea5e9; }
