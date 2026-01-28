@@ -36,7 +36,9 @@ export class AdminAltaUiComponent {
     emitirEventoGuardado(markdown: string): void {
         const inputFile = document.querySelector('#archivo') as HTMLInputElement;
         this.guardarContenidoArticulo.emit(markdown);
-        this.limpiarFileSelected.emit(inputFile);
+        if(this.formGroup()?.valid) {
+            this.limpiarFileSelected.emit(inputFile);
+        }
     }
 
     volver(): void {

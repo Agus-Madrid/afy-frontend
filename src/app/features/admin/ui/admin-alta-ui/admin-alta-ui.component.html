@@ -38,8 +38,7 @@
           #fileSelector
           type="file" id="archivo" name="archivo" 
           accept="image/png, image/jpeg, image/webp"
-          class="form-control" (change)="manageSelectionChange($event)" [class.is-invalid]="campoInvalidoLocal('cardImage')" />
-          <span class="text-danger" *ngIf="campoInvalidoLocal('cardImage')">La imagen es obligatoria.</span>
+          class="form-control" (change)="manageSelectionChange($event)"/>
         </div>
 
       <div class="card-header">Estado</div>

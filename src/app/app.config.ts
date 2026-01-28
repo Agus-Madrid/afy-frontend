@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideToastr } from 'ngx-toastr';
@@ -7,6 +7,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
 import { API_BASE_URL } from './shared/config/api-base-url.token';
 import { appRoutes } from './app.routes';
+import { httpErrorInterceptor } from './shared/interceptors/http-error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,7 +26,7 @@ export const appConfig: ApplicationConfig = {
       tapToDismiss: true,
       disableTimeOut: false
     }),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([httpErrorInterceptor])),
     {
       provide: API_BASE_URL,
       useValue: environment.apiBaseUrl

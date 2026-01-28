@@ -60,7 +60,6 @@ export class AdminAltaContainerComponent implements OnInit {
       };
 
       this.guardarArticulo(request);
-      this.limpiarFormulario();
     }
     else {
       this.articleForm.markAllAsTouched();
@@ -90,22 +89,17 @@ export class AdminAltaContainerComponent implements OnInit {
     this.articleService.createArticle(request).subscribe({
       next: (response) => {
         this.notificationService.showSuccess('Artículo creado con éxito');
-      },
-      error: (error) => {
-        this.notificationService.showError('Error al crear el artículo');
+        this.limpiarFormulario();
       }
     });
   }
 
   guardarImagenEvento(input: HTMLInputElement): void {
-    if(!input.files || input.files.length === 0) return;
+    if (!input.files || input.files.length === 0) return;
     const file = input.files[0];
     this.storageService.store(file).subscribe({
       next: (storedObject) => {
         this.articleForm.get('cardImage')?.setValue(storedObject.key);
-      },
-      error: (error) => {
-        this.notificationService.showError('Error al almacenar la imagen');
       }
     });
   }
