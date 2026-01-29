@@ -6,6 +6,7 @@ import { GenreDto } from 'src/app/features/articles/models/genre.model';
 import { CreateArticleDto } from 'src/app/features/articles/models/create-article.model';
 import { ArticleService } from 'src/app/features/articles/services/article.service';
 import { StorageService } from 'src/app/features/articles/services/storage.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'app-admin-alta-container',
@@ -21,6 +22,7 @@ export class AdminAltaContainerComponent implements OnInit {
   private readonly genreService = inject(GenreService);
   private readonly articleService = inject(ArticleService);
   private readonly storageService = inject(StorageService);
+  private readonly notificationService = inject(NotificationService);
   private readonly fb = inject(FormBuilder);
 
   articleForm: FormGroup = this.fb.group({
@@ -29,7 +31,7 @@ export class AdminAltaContainerComponent implements OnInit {
     content: ['', Validators.required],
     cardImage: [null, Validators.required],
     description: ['', Validators.required],
-    status: ['draft', Validators.required]
+    status: ['DRAFT', Validators.required]
   })
 
   ngOnInit(): void {
@@ -58,7 +60,6 @@ export class AdminAltaContainerComponent implements OnInit {
       };
 
       this.guardarArticulo(request);
-      this.limpiarFormulario();
     }
     else {
       this.articleForm.markAllAsTouched();
@@ -79,7 +80,7 @@ export class AdminAltaContainerComponent implements OnInit {
         this.genres = genres;
       },
       error: (error) => {
-        console.error('Error al obtener los géneros:', error);
+        this.notificationService.showError('Error al obtener los géneros');
       }
     });
   }
@@ -87,23 +88,18 @@ export class AdminAltaContainerComponent implements OnInit {
   guardarArticulo(request: CreateArticleDto): void {
     this.articleService.createArticle(request).subscribe({
       next: (response) => {
-        console.debug('Artículo creado con éxito:', response);
-      },
-      error: (error) => {
-        console.error('Error al crear el artículo:', error);
+        this.notificationService.showSuccess('Artículo creado con éxito');
+        this.limpiarFormulario();
       }
     });
   }
 
   guardarImagenEvento(input: HTMLInputElement): void {
-    if(!input.files || input.files.length === 0) return;
+    if (!input.files || input.files.length === 0) return;
     const file = input.files[0];
     this.storageService.store(file).subscribe({
       next: (storedObject) => {
         this.articleForm.get('cardImage')?.setValue(storedObject.key);
-      },
-      error: (error) => {
-        console.error('Error al almacenar el archivo:', error);
       }
     });
   }
