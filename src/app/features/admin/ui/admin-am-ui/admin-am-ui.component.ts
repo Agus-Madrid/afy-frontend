@@ -1,25 +1,32 @@
-import { Component, inject, input, output } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { EditorComponent } from "../../../../shared/editor/editor";
 import { FormGroup, ReactiveFormsModule, ɵInternalFormsSharedModule } from "@angular/forms";
-import { StorageService } from "src/app/features/articles/services/storage.service";
 import { NgFor, NgIf } from "@angular/common";
 import { GenreDto } from "src/app/features/articles/models/genre.model";
+import { ArticleDto } from "src/app/features/articles/models/article.model";
 
 @Component({
-    selector: "app-admin-alta-ui",
+    selector: "app-admin-am-ui",
     standalone: true,
-    templateUrl: "./admin-alta-ui.component.html",
-    styleUrls: ["./admin-alta-ui.component.css"],
+    templateUrl: "./admin-am-ui.component.html",
+    styleUrls: ["./admin-am-ui.component.css"],
     imports: [EditorComponent, ɵInternalFormsSharedModule, ReactiveFormsModule, NgIf, NgFor]
 })
 
-export class AdminAltaUiComponent {
+export class AdminAmUiComponent {
     formGroup = input<FormGroup>();
     genres = input<GenreDto[]>();
+    article = input<ArticleDto | null>();
+
     fileSelected = output<Event>();
     guardarContenidoArticulo = output<string>();
     guardarImagenEvento = output<HTMLInputElement>();
     limpiarFileSelected = output<HTMLInputElement>();
+
+    newArticleTitle = 'Crear Artículo';
+    editArticleTitle = 'Editar Artículo';
+    newArticleSubtitle = 'Creación de un nuevo artículo';
+    editArticleSubtitle = 'Modifica los datos del artículo';
 
     manageSelectionChange(event: any): void {
         const input = event.target as HTMLInputElement;
@@ -43,5 +50,13 @@ export class AdminAltaUiComponent {
 
     volver(): void {
         globalThis.history.back();
+    }
+
+    get title(): string {
+        return this.article() ? this.editArticleTitle : this.newArticleTitle;
+    }
+
+    get subtitle(): string {
+        return this.article() ? this.editArticleSubtitle : this.newArticleSubtitle;
     }
 }

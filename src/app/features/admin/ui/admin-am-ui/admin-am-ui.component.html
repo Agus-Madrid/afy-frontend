@@ -1,7 +1,7 @@
-<section class="container py-5">
+﻿<section class="container py-5">
   <div class="d-flex align-items-center justify-content-between mb-4">
     <div>
-      <h1 class="h3 mb-1 text-white">Alta</h1>
+      <h1 class="h3 mb-1 text-white">{{this.title}}</h1>
       <p class="text-white-50 mb-0">Vista básica de alta</p>
     </div>
     <button class="btn btn-primary" (click)="volver()">Volver</button>
@@ -11,7 +11,7 @@
     <div class="col-12 col-md-12">
       <div class="card shadow-sm">
         <div class="card-body">
-          <h2 class="h6 text-uppercase text-muted">Creación de artículo</h2>
+          <h2 class="h6 text-uppercase text-muted">{{this.subtitle}}</h2>
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@
 
       <div class="card-header">Contenido</div>
       <div class="card-body">
-        <app-editor (contenidoGuardado)="emitirEventoGuardado($event)"></app-editor>
+        <app-editor (contenidoGuardado)="emitirEventoGuardado($event)" [articleContent]="this.article()?.content"></app-editor>
       </div>
     </form>
   </div>
