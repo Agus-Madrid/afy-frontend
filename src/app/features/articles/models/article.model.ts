@@ -8,10 +8,13 @@ export interface ArticleDto {
   summary?: string;
   author?: UserDto;
   createdAt?: string;
+  publishedAt?: string;
   updatedAt?: string;
   description?: string;
   cardImageUrl?: string;
   genre?: GenreDto;
+  status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+  
 }
 
 export interface ArticleQueryParams
@@ -20,4 +23,5 @@ export interface ArticleQueryParams
   size?: number;
   sort?: string | string[];
   genreId?: number;
+  published?: boolean | null;
 }
