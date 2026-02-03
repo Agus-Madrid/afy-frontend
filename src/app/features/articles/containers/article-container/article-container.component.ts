@@ -77,15 +77,12 @@ export class ArticleContainerComponent implements OnInit {
         this.setActiveGenreByIndex(0, genres);
         //Cargo acá porque depende de los generos
         this.loadNextPage();
-      },
-      error: () => {
-        // Manejo de error si es necesario
       }
     });
   }
 
   private getArticlesByGenre(): void {
-    this.articleService.getArticles({ page: 0, size: this.pageSize, genreId: this.actualGenreId ?? undefined})
+    this.articleService.getArticles({ page: 0, size: this.pageSize, genreId: this.actualGenreId ?? undefined, published: true })
       .subscribe({
         next: (articleBatch: any) => {
           const batch = articleBatch.content ?? [];
