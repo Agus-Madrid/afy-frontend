@@ -17,6 +17,7 @@ export class AdminAmUiComponent {
     formGroup = input<FormGroup>();
     genres = input<GenreDto[]>();
     article = input<ArticleDto | null>();
+    cardImagePreviewUrl = input<string | null>(null);
 
     fileSelected = output<Event>();
     guardarContenidoArticulo = output<string>();

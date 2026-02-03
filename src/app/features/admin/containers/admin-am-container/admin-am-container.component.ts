@@ -20,6 +20,7 @@ import { ActivatedRoute } from '@angular/router';
 export class AdminAmContainerComponent implements OnInit {
 
   protected genres: GenreDto[] = [];
+  protected cardImagePreviewUrl: string | null = null;
 
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly genreService = inject(GenreService);
@@ -107,6 +108,25 @@ export class AdminAmContainerComponent implements OnInit {
   }
 
   guardarArticulo(request: CreateArticleDto): void {
+    if( this.article ) {
+      this.modificacionArticulo(request);
+    }
+    else {
+      this.altaArticulo(request);
+    }
+  }
+
+  modificacionArticulo(request: CreateArticleDto): void {
+    if (!this.article) return;
+
+    this.articleService.updateArticle(this.article.id!, request).subscribe({
+      next: () => {
+        this.notificationService.showSuccess('Artículo modificado con éxito');
+      }
+    });
+  }
+
+  altaArticulo(request: CreateArticleDto): void {
     this.articleService.createArticle(request).subscribe({
       next: () => {
         this.notificationService.showSuccess('Artículo creado con éxito');
@@ -121,6 +141,7 @@ export class AdminAmContainerComponent implements OnInit {
     this.storageService.store(file).subscribe({
       next: (storedObject) => {
         this.articleForm.get('cardImage')?.setValue(storedObject.key);
+        this.cardImagePreviewUrl = storedObject.url;
       }
     });
   }
@@ -132,17 +153,20 @@ export class AdminAmContainerComponent implements OnInit {
       title: this.article.title,
       genre: this.article.genre?.id,
       content: this.article.content,
-      cardImage: this.article.cardImageUrl,
+      cardImage: this.article.cardImageKey,
       description: this.article.description,
       status: this.article.status
     });
+    this.cardImagePreviewUrl = this.article.cardImageUrl ?? null;
     
   }
 
-  limpiarFormulario(input?: HTMLInputElement): void {
+  limpiarFormulario(): void {
     this.articleForm.reset();
-    if (input) {
-      input.value = '';
-    }
+    this.cardImagePreviewUrl = null;
+  }
+
+  limpiarFileSelected(input: HTMLInputElement): void {
+    input.value = '';
   }
 }

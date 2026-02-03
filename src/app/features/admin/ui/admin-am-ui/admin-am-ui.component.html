@@ -39,7 +39,15 @@
           type="file" id="archivo" name="archivo" 
           accept="image/png, image/jpeg, image/webp"
           class="form-control" (change)="manageSelectionChange($event)"/>
-        </div>
+          <div class="image-container mt-3">
+            <h6>Imagen actual</h6>
+            <img
+              *ngIf="cardImagePreviewUrl() || article()?.cardImageUrl"
+              [src]="cardImagePreviewUrl() || article()?.cardImageUrl"
+              alt="Imagen del artículo"
+              class="article-image-preview mt-3" />
+          </div>
+      </div>
 
       <div class="card-header">Estado</div>
       <div class="card-body">

@@ -2,7 +2,8 @@
     [formGroup]="articleForm"
     [genres]="genres"
     [article]="article"
+    [cardImagePreviewUrl]="cardImagePreviewUrl"
     (guardarContenidoArticulo)="onGuardarArticulo($event)"
     (guardarImagenEvento)="guardarImagenEvento($event)"
-    (limpiarFileSelected)="limpiarFormulario($event)"
+    (limpiarFileSelected)="limpiarFileSelected($event)"
 />

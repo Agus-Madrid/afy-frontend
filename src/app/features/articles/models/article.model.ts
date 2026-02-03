@@ -10,6 +10,7 @@ export interface ArticleDto {
   createdAt?: string;
   updatedAt?: string;
   description?: string;
+  cardImageKey?: string | null;
   cardImageUrl?: string;
   status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
   genreId?: number;
