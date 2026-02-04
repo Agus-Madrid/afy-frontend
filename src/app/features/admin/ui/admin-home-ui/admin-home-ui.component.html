@@ -44,14 +44,24 @@
             <th scope="col">Título</th>
             <th scope="col">Fecha creación</th>
             <th scope="col">Estado</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let article of articles()" [class.table-success]="article.status === 'PUBLISHED'" [class.table-warning]="article.status === 'DRAFT'" [class.table-secondary]="article.status === 'ARCHIVED'">
+          <tr *ngFor="let article of articles()" [class.table-success]="article.status === 'PUBLISHED'"
+            [class.table-warning]="article.status === 'DRAFT'" [class.table-secondary]="article.status === 'ARCHIVED'">
             <th scope="row">{{ article.id }}</th>
             <td>{{ article.title }}</td>
             <td>{{ article.createdAt | date }}</td>
             <td>{{ article.status }}</td>
+            <td class="d-flex gap-4">
+              <button type="button" class="btn btn-link p-0" (click)="navigateToModificacion(article.id!)">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button type="button" class="btn btn-link p-0" (click)="navigateToEliminacion(article.id!)">
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>

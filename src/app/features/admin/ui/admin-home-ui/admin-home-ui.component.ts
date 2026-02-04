@@ -20,4 +20,12 @@ export class AdminHomeUiComponent {
     navigateToAlta(): void {
         this.router.navigate(['/admin/alta']);
     }
+
+    navigateToModificacion(articleId: number): void {
+        this.router.navigate([`/admin/modificacion/${articleId}`]);
+    }
+
+    navigateToEliminacion(articleId: number): void {
+        // Implement navigation to deletion page
+    }
 }
