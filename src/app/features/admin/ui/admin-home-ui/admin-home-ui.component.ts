@@ -16,13 +16,13 @@ export class AdminHomeUiComponent {
     articles = input<ArticleDto[]>();
     totalArticlesCount = input<number>();
     totalViewsCount = input<number>();
-    
+
     navigateToAlta(): void {
         this.router.navigate(['/admin/alta']);
     }
 
     navigateToModificacion(articleId: number): void {
-        this.router.navigate([`/admin/modificacion/${articleId}`]);
+        this.router.navigate([`/admin/modificar/${articleId}`]);
     }
 
     navigateToEliminacion(articleId: number): void {
