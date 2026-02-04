@@ -14,6 +14,8 @@ export class AdminHomeUiComponent {
     private readonly router = inject(Router);
 
     articles = input<ArticleDto[]>();
+    totalArticlesCount = input<number>();
+    totalViewsCount = input<number>();
     
     navigateToAlta(): void {
         this.router.navigate(['/admin/alta']);
