@@ -11,7 +11,10 @@ export interface ArticleDto {
   publishedAt?: string;
   updatedAt?: string;
   description?: string;
+  cardImageKey?: string | null;
   cardImageUrl?: string;
+  status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+  genreId?: number;
   genre?: GenreDto;
   status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
   

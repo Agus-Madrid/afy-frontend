@@ -1,5 +1,5 @@
-import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
-import { AdminAltaUiComponent } from '../../ui/admin-alta-ui/admin-alta-ui.component';
+import { Component, inject, OnInit } from '@angular/core';
+import { AdminAmUiComponent } from '../../ui/admin-am-ui/admin-am-ui.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { GenreService } from 'src/app/features/articles/services/genre.service';
 import { GenreDto } from 'src/app/features/articles/models/genre.model';
@@ -7,23 +7,29 @@ import { CreateArticleDto } from 'src/app/features/articles/models/create-articl
 import { ArticleService } from 'src/app/features/articles/services/article.service';
 import { StorageService } from 'src/app/features/articles/services/storage.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
+import { ArticleDto } from 'src/app/features/articles/models/article.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-admin-alta-container',
+  selector: 'app-admin-am-container',
   standalone: true,
-  imports: [AdminAltaUiComponent],
-  templateUrl: './admin-alta-container.component.html',
-  styleUrls: [`./admin-alta-container.component.css`],
+  imports: [AdminAmUiComponent],
+  templateUrl: './admin-am-container.component.html',
+  styleUrls: [`./admin-am-container.component.css`],
 })
-export class AdminAltaContainerComponent implements OnInit {
+export class AdminAmContainerComponent implements OnInit {
 
   protected genres: GenreDto[] = [];
+  protected cardImagePreviewUrl: string | null = null;
 
+  private readonly activatedRoute = inject(ActivatedRoute);
   private readonly genreService = inject(GenreService);
   private readonly articleService = inject(ArticleService);
   private readonly storageService = inject(StorageService);
   private readonly notificationService = inject(NotificationService);
   private readonly fb = inject(FormBuilder);
+
+  protected article: ArticleDto | null = null;
 
   articleForm: FormGroup = this.fb.group({
     title: ['', Validators.required],
@@ -36,6 +42,8 @@ export class AdminAltaContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerGeneros();
+    this.obtenerArticuloPorUrl();
+    //Se carga el formulario si viene un artículo, por eso se llama en obtenerArticuloPorUrl
   }
 
   campoInvalido(campo: string): boolean {
@@ -79,15 +87,48 @@ export class AdminAltaContainerComponent implements OnInit {
       next: (genres) => {
         this.genres = genres;
       },
-      error: (error) => {
+      error: () => {
         this.notificationService.showError('Error al obtener los géneros');
       }
     });
   }
 
+  obtenerArticuloPorUrl(){
+    const articleId = this.activatedRoute.snapshot.paramMap.get('id');
+    const articleIdNum = articleId ? Number.parseInt(articleId, 10) : null;
+
+    if(articleIdNum){
+      this.articleService.getArticleById(articleIdNum).subscribe({
+        next: (article) => {
+          this.article = article;
+          this.cargarFormulario();
+        }
+      });
+    }
+  }
+
   guardarArticulo(request: CreateArticleDto): void {
+    if( this.article ) {
+      this.modificacionArticulo(request);
+    }
+    else {
+      this.altaArticulo(request);
+    }
+  }
+
+  modificacionArticulo(request: CreateArticleDto): void {
+    if (!this.article) return;
+
+    this.articleService.updateArticle(this.article.id!, request).subscribe({
+      next: () => {
+        this.notificationService.showSuccess('Artículo modificado con éxito');
+      }
+    });
+  }
+
+  altaArticulo(request: CreateArticleDto): void {
     this.articleService.createArticle(request).subscribe({
-      next: (response) => {
+      next: () => {
         this.notificationService.showSuccess('Artículo creado con éxito');
         this.limpiarFormulario();
       }
@@ -100,14 +141,32 @@ export class AdminAltaContainerComponent implements OnInit {
     this.storageService.store(file).subscribe({
       next: (storedObject) => {
         this.articleForm.get('cardImage')?.setValue(storedObject.key);
+        this.cardImagePreviewUrl = storedObject.url;
       }
     });
   }
 
-  limpiarFormulario(input?: HTMLInputElement): void {
+  cargarFormulario(): void {
+    if (!this.article) return;
+
+    this.articleForm.patchValue({
+      title: this.article.title,
+      genre: this.article.genre?.id,
+      content: this.article.content,
+      cardImage: this.article.cardImageKey,
+      description: this.article.description,
+      status: this.article.status
+    });
+    this.cardImagePreviewUrl = this.article.cardImageUrl ?? null;
+    
+  }
+
+  limpiarFormulario(): void {
     this.articleForm.reset();
-    if (input) {
-      input.value = '';
-    }
+    this.cardImagePreviewUrl = null;
+  }
+
+  limpiarFileSelected(input: HTMLInputElement): void {
+    input.value = '';
   }
 }

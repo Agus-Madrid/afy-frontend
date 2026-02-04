@@ -1,8 +1,9 @@
-<app-admin-alta-ui 
+<app-admin-am-ui 
     [formGroup]="articleForm"
     [genres]="genres"
+    [article]="article"
+    [cardImagePreviewUrl]="cardImagePreviewUrl"
     (guardarContenidoArticulo)="onGuardarArticulo($event)"
     (guardarImagenEvento)="guardarImagenEvento($event)"
-    (limpiarFileSelected)="limpiarFormulario($event)"
->
-</app-admin-alta-ui>
+    (limpiarFileSelected)="limpiarFileSelected($event)"
+/>

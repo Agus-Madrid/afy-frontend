@@ -14,7 +14,12 @@ export const routes: Routes = [
       },
       {
         path: 'alta',
-        loadComponent: () => import('./containers/admin-alta-container/admin-alta-container.component').then(m => m.AdminAltaContainerComponent),
+        loadComponent: () => import('./containers/admin-am-container/admin-am-container.component').then(m => m.AdminAmContainerComponent),
         title: 'Admin - Alta'
+      },
+      {
+        path: 'modificar/:id',
+        loadComponent: () => import('./containers/admin-am-container/admin-am-container.component').then(m => m.AdminAmContainerComponent),
+        title: 'Admin - Modificar'
       }
 ];

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, output, viewChild } from '@angular/core';
+﻿import { AfterViewInit, Component, effect, ElementRef, input, output, viewChild } from '@angular/core';
 import Editor from '@toast-ui/editor';
 
 @Component({
@@ -13,7 +13,19 @@ import Editor from '@toast-ui/editor';
   `
 })
 export class EditorComponent implements AfterViewInit{
+
+  constructor() {
+    //Effect para actualizar avalor de article content para editar artículos
+    effect(() => {
+      if (this.editor && this.articleContent() !== undefined) {
+        this.editor.setMarkdown(this.articleContent() || '');
+      }
+    });
+  }
+
   editorContainer = viewChild.required<ElementRef>('editorContainer');
+
+  articleContent = input<string | undefined>('');
   contenidoGuardado = output<string>();
 
   editor!: Editor;
@@ -24,7 +36,7 @@ export class EditorComponent implements AfterViewInit{
       height: '500px',
       initialEditType: 'wysiwyg', //Facilidad para el usuario a la hora de escribir un articulo
       previewStyle: 'vertical',
-      initialValue: 'Empieza a escribir tu historia aquí...'
+      initialValue: this.articleContent() || 'Escribe tu artículo aquí...',
     });
   }
 
