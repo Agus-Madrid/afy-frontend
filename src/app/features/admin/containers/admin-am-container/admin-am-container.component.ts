@@ -9,6 +9,7 @@ import { StorageService } from 'src/app/features/articles/services/storage.servi
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { ArticleDto } from 'src/app/features/articles/models/article.model';
 import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-admin-am-container',
@@ -83,7 +84,8 @@ export class AdminAmContainerComponent implements OnInit {
   }
 
   obtenerGeneros() {
-    this.genreService.getGenres().subscribe({
+    this.notificationService.disableInterceptorMessages();
+    this.genreService.getGenres().pipe(finalize(() => this.notificationService.enableInterceptorMessages())).subscribe({
       next: (genres) => {
         this.genres = genres;
       },
