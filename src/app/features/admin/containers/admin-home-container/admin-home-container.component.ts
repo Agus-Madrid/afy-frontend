@@ -1,8 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AdminHomeUiComponent } from "../../ui/admin-home-ui/admin-home-ui.component";
 import { ArticleService } from 'src/app/features/articles/services/article.service';
 import { ArticleDto } from 'src/app/features/articles/models/article.model';
 import { StatsService } from 'src/app/features/articles/services/stats.service';
+import { Subscription, timer } from 'rxjs';
 
 @Component({
   selector: 'app-admin-home-container',
@@ -10,9 +11,12 @@ import { StatsService } from 'src/app/features/articles/services/stats.service';
   templateUrl: './admin-home-container.component.html',
   imports: [AdminHomeUiComponent]
 })
-export class AdminHomeContainerComponent implements OnInit {
+export class AdminHomeContainerComponent implements OnInit, OnDestroy {
   private readonly articleService = inject(ArticleService);
   private readonly statsService = inject(StatsService);
+
+  subscription: Subscription | null = null;
+  protected everyFiveSeconds = timer(0, 5000);
   protected articles: ArticleDto[] = [];
   protected totalArticlesCount: number = 0;
   protected totalViewsCount: number = 0;
@@ -20,6 +24,11 @@ export class AdminHomeContainerComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerArticulos();
     this.obtenerEstadisticas();
+    this.suscribeToTimer();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
   
   obtenerArticulos(): void {
@@ -44,4 +53,9 @@ export class AdminHomeContainerComponent implements OnInit {
     });
   }
 
+  suscribeToTimer(): void {
+    this.subscription = this.everyFiveSeconds.subscribe(() => {
+      this.obtenerEstadisticas();
+    });
+  }
 }

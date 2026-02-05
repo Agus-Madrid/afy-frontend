@@ -3,6 +3,7 @@ import { ArticleDetailUiComponent } from "../../ui/article-detail-ui/article-det
 import { ArticleDto } from "../../models/article.model";
 import { ArticleService } from "../../services/article.service";
 import { ActivatedRoute } from "@angular/router";
+import { StatsService } from "../../services/stats.service";
 
 @Component({
     selector: "app-article-detail-container",
@@ -17,10 +18,12 @@ export class ArticleDetailContainerComponent implements OnInit{
     article!: ArticleDto;
     articleId!: number;
     articleService = inject(ArticleService);
+    statsService = inject(StatsService);
 
     ngOnInit(): void {
        this.loadArticleId();
        this.loadArticle();
+         this.incrementViewsCount();
     }
 
     private loadArticle(): void {
@@ -36,5 +39,13 @@ export class ArticleDetailContainerComponent implements OnInit{
 
     private loadArticleId(): void {
         this.articleId = Number(this.route.snapshot.paramMap.get("id"));
+    }
+
+    private incrementViewsCount(): void {
+        this.statsService.incrementViewsCount(this.articleId).subscribe({
+            next: () => {
+                console.debug("Views subidas mas 1.");
+            }
+        });
     }
 }

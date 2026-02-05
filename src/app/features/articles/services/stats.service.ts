@@ -20,4 +20,8 @@ export class StatsService extends BaseApiService {
   getTotalArticlesCount(): Observable<number> {
     return this.http.get<number>(this.buildUrl(`${this.resourcePath}/articles/total`));
   }
+
+  incrementViewsCount(articleId: number): Observable<void> {
+    return this.http.post<void>(this.buildUrl(`${this.resourcePath}/articles/${articleId}/views`), {});
+  }
 }
