@@ -16,8 +16,6 @@ export interface ArticleDto {
   status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
   genreId?: number;
   genre?: GenreDto;
-  status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
-  
 }
 
 export interface ArticleQueryParams
