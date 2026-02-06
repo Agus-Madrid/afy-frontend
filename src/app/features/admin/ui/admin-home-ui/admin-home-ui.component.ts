@@ -1,7 +1,8 @@
 import { DatePipe, NgFor } from "@angular/common";
-import { Component, inject, input } from "@angular/core";
+import { Component, inject, input, output } from "@angular/core";
 import { Router } from "@angular/router";
 import { ArticleDto } from "src/app/features/articles/models/article.model";
+import { ModalService } from "src/app/shared/services/modal.service";
 
 @Component({
     selector: "app-admin-home-ui",
@@ -12,7 +13,9 @@ import { ArticleDto } from "src/app/features/articles/models/article.model";
 
 export class AdminHomeUiComponent {
     private readonly router = inject(Router);
-
+    private readonly modalService = inject(ModalService);
+    
+    deleteArticulo = output<number>();
     articles = input<ArticleDto[]>();
     totalArticlesCount = input<number>();
     totalViewsCount = input<number>();
@@ -25,7 +28,13 @@ export class AdminHomeUiComponent {
         this.router.navigate([`/admin/modificar/${articleId}`]);
     }
 
-    navigateToEliminacion(articleId: number): void {
-        // Implement navigation to deletion page
+    handleDelete(articleId: number): void {
+        const title = 'Confirmación';
+        const message = '¿Estás seguro de que deseas eliminar este artículo?';
+        this.modalService.confirm(title, message).then(confirmed => {
+            if (confirmed) {
+                this.deleteArticulo.emit(articleId);
+            }
+        });
     }
 }

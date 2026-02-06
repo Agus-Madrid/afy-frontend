@@ -58,4 +58,13 @@ export class AdminHomeContainerComponent implements OnInit, OnDestroy {
       this.obtenerEstadisticas();
     });
   }
+
+  deleteArticulo(articleId: number): void {
+    this.articleService.deleteArticle(articleId).subscribe({
+      next: () => {
+        this.obtenerArticulos();
+        this.obtenerEstadisticas();
+      }
+    });
+  }
 }
