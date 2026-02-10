@@ -1,4 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+﻿import { Component, inject, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { AdminAmUiComponent } from '../../ui/admin-am-ui/admin-am-ui.component';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { GenreService } from 'src/app/features/articles/services/genre.service';
@@ -29,6 +30,7 @@ export class AdminAmContainerComponent implements OnInit {
   private readonly storageService = inject(StorageService);
   private readonly notificationService = inject(NotificationService);
   private readonly fb = inject(FormBuilder);
+  private readonly location = inject(Location);
 
   protected article: ArticleDto | null = null;
 
@@ -44,7 +46,7 @@ export class AdminAmContainerComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerGeneros();
     this.obtenerArticuloPorUrl();
-    //Se carga el formulario si viene un artículo, por eso se llama en obtenerArticuloPorUrl
+    //Se carga el formulario si viene un artÃ­culo, por eso se llama en obtenerArticuloPorUrl
   }
 
   campoInvalido(campo: string): boolean {
@@ -90,7 +92,7 @@ export class AdminAmContainerComponent implements OnInit {
         this.genres = genres;
       },
       error: () => {
-        this.notificationService.showError('Error al obtener los géneros');
+        this.notificationService.showError('Error al obtener los gÃ©neros');
       }
     });
   }
@@ -123,7 +125,7 @@ export class AdminAmContainerComponent implements OnInit {
 
     this.articleService.updateArticle(this.article.id!, request).subscribe({
       next: () => {
-        this.notificationService.showSuccess('Artículo modificado con éxito');
+        this.notificationService.showSuccess('ArtÃ­culo modificado con Ã©xito');
       }
     });
   }
@@ -131,7 +133,7 @@ export class AdminAmContainerComponent implements OnInit {
   altaArticulo(request: CreateArticleDto): void {
     this.articleService.createArticle(request).subscribe({
       next: () => {
-        this.notificationService.showSuccess('Artículo creado con éxito');
+        this.notificationService.showSuccess('ArtÃ­culo creado con Ã©xito');
         this.limpiarFormulario();
       }
     });
@@ -171,4 +173,10 @@ export class AdminAmContainerComponent implements OnInit {
   limpiarFileSelected(input: HTMLInputElement): void {
     input.value = '';
   }
+
+  navigateBack(): void {
+    this.location.back();
+  }
 }
+
+

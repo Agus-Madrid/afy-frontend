@@ -1,2 +1,7 @@
-<app-admin-home-ui [articles]="articles" [totalArticlesCount]="totalArticlesCount"
-    [totalViewsCount]="totalViewsCount" (deleteArticulo)="deleteArticulo($event)"/>
+<app-admin-home-ui
+    [articles]="articles"
+    [totalArticlesCount]="totalArticlesCount"
+    [totalViewsCount]="totalViewsCount"
+    (createRequested)="navigateToAlta()"
+    (editRequested)="navigateToModificacion($event)"
+    (deleteRequested)="confirmDelete($event)"/>

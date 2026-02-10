@@ -23,6 +23,7 @@ export class AdminAmUiComponent {
     guardarContenidoArticulo = output<string>();
     guardarImagenEvento = output<HTMLInputElement>();
     limpiarFileSelected = output<HTMLInputElement>();
+    backRequested = output<void>();
 
     newArticleTitle = 'Crear Artículo';
     editArticleTitle = 'Editar Artículo';
@@ -47,10 +48,6 @@ export class AdminAmUiComponent {
         if(this.formGroup()?.valid) {
             this.limpiarFileSelected.emit(inputFile);
         }
-    }
-
-    volver(): void {
-        globalThis.history.back();
     }
 
     get title(): string {

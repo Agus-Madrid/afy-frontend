@@ -1,10 +1,10 @@
-<section class="container py-5">
+﻿<section class="container py-5">
   <div class="d-flex align-items-center justify-content-between mb-4">
     <div>
       <h1 class="h3 mb-1 text-white">Dashboard</h1>
       <p class="text-white-50 mb-0">Vista basica de administracion</p>
     </div>
-    <button class="btn btn-primary" (click)="navigateToAlta()">Nuevo artículo</button>
+    <button class="btn btn-primary" (click)="createRequested.emit()">Nuevo artÃ­culo</button>
   </div>
 
   <div class="row g-3">
@@ -41,8 +41,8 @@
         <thead>
           <tr>
             <th scope="col">Articulo</th>
-            <th scope="col">Título</th>
-            <th scope="col">Fecha creación</th>
+            <th scope="col">TÃ­tulo</th>
+            <th scope="col">Fecha creaciÃ³n</th>
             <th scope="col">Estado</th>
             <th scope="col"></th>
           </tr>
@@ -55,10 +55,10 @@
             <td>{{ article.createdAt | date }}</td>
             <td>{{ article.status }}</td>
             <td class="d-flex gap-4">
-              <button type="button" class="btn btn-link p-0" (click)="navigateToModificacion(article.id!)">
+              <button type="button" class="btn btn-link p-0" (click)="editRequested.emit(article.id!)">
                 <i class="bi bi-pencil-square"></i>
               </button>
-              <button type="button" class="btn btn-link p-0" (click)="handleDelete(article.id!)">
+              <button type="button" class="btn btn-link p-0" (click)="deleteRequested.emit(article.id!)">
                 <i class="bi bi-trash-fill"></i>
               </button>
             </td>
