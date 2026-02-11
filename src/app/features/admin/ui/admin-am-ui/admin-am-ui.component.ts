@@ -42,8 +42,7 @@ export class AdminAmUiComponent {
         return control ? control.invalid && control.touched : false;
     }
 
-    emitirEventoGuardado(markdown: string): void {
-        const inputFile = document.querySelector('#archivo') as HTMLInputElement;
+    emitirEventoGuardado(markdown: string, inputFile: HTMLInputElement): void {
         this.guardarContenidoArticulo.emit(markdown);
         if(this.formGroup()?.valid) {
             this.limpiarFileSelected.emit(inputFile);

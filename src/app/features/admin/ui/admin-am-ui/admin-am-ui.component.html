@@ -69,7 +69,7 @@
 
       <div class="card-header">Contenido</div>
       <div class="card-body">
-        <app-editor (contenidoGuardado)="emitirEventoGuardado($event)" [articleContent]="this.article()?.content"></app-editor>
+        <app-editor (contenidoGuardado)="emitirEventoGuardado($event, fileSelector)" [articleContent]="this.article()?.content"></app-editor>
       </div>
     </form>
   </div>
