@@ -23,7 +23,7 @@ export class ArticleDetailContainerComponent implements OnInit{
     ngOnInit(): void {
        this.loadArticleId();
        this.loadArticle();
-         this.incrementViewsCount();
+       this.incrementViewsCount();
     }
 
     private loadArticle(): void {
