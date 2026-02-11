@@ -22,6 +22,7 @@ export class ArticleUiComponent {
     retry = output<void>();
     nextGenre = output<void>();
     prevGenre = output<void>();
+    readMore = output<number | null>();
 
 
     protected trackArticleById(_index: number, article: ArticleDto): number | string {

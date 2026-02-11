@@ -23,6 +23,7 @@ export class AdminAmUiComponent {
     guardarContenidoArticulo = output<string>();
     guardarImagenEvento = output<HTMLInputElement>();
     limpiarFileSelected = output<HTMLInputElement>();
+    backRequested = output<void>();
 
     newArticleTitle = 'Crear Artículo';
     editArticleTitle = 'Editar Artículo';
@@ -41,16 +42,11 @@ export class AdminAmUiComponent {
         return control ? control.invalid && control.touched : false;
     }
 
-    emitirEventoGuardado(markdown: string): void {
-        const inputFile = document.querySelector('#archivo') as HTMLInputElement;
+    emitirEventoGuardado(markdown: string, inputFile: HTMLInputElement): void {
         this.guardarContenidoArticulo.emit(markdown);
         if(this.formGroup()?.valid) {
             this.limpiarFileSelected.emit(inputFile);
         }
-    }
-
-    volver(): void {
-        globalThis.history.back();
     }
 
     get title(): string {

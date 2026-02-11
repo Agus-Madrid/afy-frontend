@@ -1,11 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-
+import { disableHttpErrorInterceptor, enableHttpErrorInterceptor } from '../interceptors/http-error.interceptor';
 @Injectable({
   providedIn: 'root'
 })
 
 export class NotificationService {
+
   toastr = inject(ToastrService);
 
   showSuccess(message: string, title?: string): void {
@@ -22,5 +23,13 @@ export class NotificationService {
 
   showWarning(message: string, title?: string): void {
     this.toastr.warning(message, title);
+  }
+
+  disableInterceptorMessages(): void {
+    disableHttpErrorInterceptor();
+  }
+
+  enableInterceptorMessages(): void {
+    enableHttpErrorInterceptor();
   }
 }

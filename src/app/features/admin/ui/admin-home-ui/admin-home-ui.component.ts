@@ -1,6 +1,5 @@
-import { DatePipe, NgFor } from "@angular/common";
-import { Component, inject, input } from "@angular/core";
-import { Router } from "@angular/router";
+﻿import { DatePipe, NgFor } from "@angular/common";
+import { Component, input, output } from "@angular/core";
 import { ArticleDto } from "src/app/features/articles/models/article.model";
 
 @Component({
@@ -11,21 +10,11 @@ import { ArticleDto } from "src/app/features/articles/models/article.model";
 })
 
 export class AdminHomeUiComponent {
-    private readonly router = inject(Router);
+    createRequested = output<void>();
+    editRequested = output<number>();
+    deleteRequested = output<number>();
 
     articles = input<ArticleDto[]>();
     totalArticlesCount = input<number>();
     totalViewsCount = input<number>();
-
-    navigateToAlta(): void {
-        this.router.navigate(['/admin/alta']);
-    }
-
-    navigateToModificacion(articleId: number): void {
-        this.router.navigate([`/admin/modificar/${articleId}`]);
-    }
-
-    navigateToEliminacion(articleId: number): void {
-        // Implement navigation to deletion page
-    }
 }

@@ -1,0 +1,16 @@
+<div class="modal fade" id="modalId" #modal tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{title}}</h5>
+            </div>
+            <div class="modal-body">
+                <p>{{ message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="confirm(true)">Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="confirm(false)">No</button>
+            </div>
+        </div>
+    </div>
+</div>

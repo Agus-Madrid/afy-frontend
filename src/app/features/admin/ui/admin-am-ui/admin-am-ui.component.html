@@ -4,7 +4,7 @@
       <h1 class="h3 mb-1 text-white">{{this.title}}</h1>
       <p class="text-white-50 mb-0">Vista básica de alta</p>
     </div>
-    <button class="btn btn-primary" (click)="volver()">Volver</button>
+    <button class="btn btn-primary" (click)="backRequested.emit()">Volver</button>
   </div>
 
   <div class="row g-3">
@@ -69,8 +69,9 @@
 
       <div class="card-header">Contenido</div>
       <div class="card-body">
-        <app-editor (contenidoGuardado)="emitirEventoGuardado($event)" [articleContent]="this.article()?.content"></app-editor>
+        <app-editor (contenidoGuardado)="emitirEventoGuardado($event, fileSelector)" [articleContent]="this.article()?.content"></app-editor>
       </div>
     </form>
   </div>
 </section>
+

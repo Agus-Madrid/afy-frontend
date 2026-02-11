@@ -1,4 +1,4 @@
-<app-admin-am-ui 
+﻿<app-admin-am-ui 
     [formGroup]="articleForm"
     [genres]="genres"
     [article]="article"
@@ -6,4 +6,5 @@
     (guardarContenidoArticulo)="onGuardarArticulo($event)"
     (guardarImagenEvento)="guardarImagenEvento($event)"
     (limpiarFileSelected)="limpiarFileSelected($event)"
+    (backRequested)="navigateBack()"
 />

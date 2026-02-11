@@ -9,7 +9,7 @@
     <p class="card-text">{{ buildPreview(data) }}</p>
   </div>
   <div class="card-footer border-0 pt-0">
-    <button type="button" class="btn btn-link text-warning text-decoration-none px-0" (click)="navigateToArticle()">
+    <button type="button" class="btn btn-link text-warning text-decoration-none px-0" (click)="readMore.emit(data.id ?? null)">
       Seguir leyendo
       <span aria-hidden="true" class="ms-1">→</span>
     </button>

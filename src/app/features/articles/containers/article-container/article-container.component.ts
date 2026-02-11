@@ -1,4 +1,5 @@
 ﻿import { Component, OnInit, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ArticleService } from '../../services/article.service';
 import { ArticleDto } from '../../models/article.model';
@@ -18,6 +19,7 @@ export class ArticleContainerComponent implements OnInit {
 
   private readonly articleService = inject(ArticleService);
   private readonly genreService = inject(GenreService);
+  private readonly router = inject(Router);
 
   private readonly pageSize = 4;
   private actualGenreId: number | null = null;
@@ -47,6 +49,14 @@ export class ArticleContainerComponent implements OnInit {
   protected retry(): void {
     this.error.set(null);
     this.loadNextPage();
+  }
+
+  protected openArticle(articleId: number | null): void {
+    if (articleId == null) {
+      return;
+    }
+
+    this.router.navigate(['/articles', articleId]);
   }
 
   //TODO: Refactorizar estos dos métodos para no repetir código, que sean uno solo
@@ -117,3 +127,4 @@ export class ArticleContainerComponent implements OnInit {
     this.genreService.loadGenreImageUrl(selectedGenre.urlImage);
   }
 }
+

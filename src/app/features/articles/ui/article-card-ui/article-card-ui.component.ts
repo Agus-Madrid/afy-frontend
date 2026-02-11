@@ -1,8 +1,7 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, Input, output } from '@angular/core';
 import { DatePipe, NgIf, NgStyle } from '@angular/common';
 
 import { ArticleDto } from '../../models/article.model';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-article-card-ui',
@@ -14,7 +13,7 @@ import { Router } from '@angular/router';
 export class ArticleCardUiComponent {
   @Input({ required: true }) article!: ArticleDto;
 
-  router = inject(Router);
+  readMore = output<number | null>();
 
   protected buildPreview(article: ArticleDto): string {
     const summary = article.description?.trim();
@@ -30,10 +29,5 @@ export class ArticleCardUiComponent {
     return `${content.slice(0, 220).trimEnd()}…`;
   }
 
-  protected navigateToArticle(): void {
-    if (this.article.id) {
-      this.router.navigate(['/articles', this.article.id]);
-    }
-  }
 }
 
