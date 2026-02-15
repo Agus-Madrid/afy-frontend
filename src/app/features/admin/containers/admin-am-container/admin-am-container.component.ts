@@ -46,7 +46,7 @@ export class AdminAmContainerComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerGeneros();
     this.obtenerArticuloPorUrl();
-    //Se carga el formulario si viene un artÃ­culo, por eso se llama en obtenerArticuloPorUrl
+    //Se carga el formulario si viene un artículo, por eso se llama en obtenerArticuloPorUrl
   }
 
   campoInvalido(campo: string): boolean {
@@ -92,16 +92,16 @@ export class AdminAmContainerComponent implements OnInit {
         this.genres = genres;
       },
       error: () => {
-        this.notificationService.showError('Error al obtener los gÃ©neros');
+        this.notificationService.showError('Error al obtener los géneros');
       }
     });
   }
 
-  obtenerArticuloPorUrl(){
+  obtenerArticuloPorUrl() {
     const articleId = this.activatedRoute.snapshot.paramMap.get('id');
     const articleIdNum = articleId ? Number.parseInt(articleId, 10) : null;
 
-    if(articleIdNum){
+    if (articleIdNum) {
       this.articleService.getArticleById(articleIdNum).subscribe({
         next: (article) => {
           this.article = article;
@@ -112,7 +112,7 @@ export class AdminAmContainerComponent implements OnInit {
   }
 
   guardarArticulo(request: CreateArticleDto): void {
-    if( this.article ) {
+    if (this.article) {
       this.modificacionArticulo(request);
     }
     else {
@@ -125,7 +125,7 @@ export class AdminAmContainerComponent implements OnInit {
 
     this.articleService.updateArticle(this.article.id!, request).subscribe({
       next: () => {
-        this.notificationService.showSuccess('ArtÃ­culo modificado con Ã©xito');
+        this.notificationService.showSuccess('Artículo modificado con éxito');
       }
     });
   }
@@ -133,7 +133,7 @@ export class AdminAmContainerComponent implements OnInit {
   altaArticulo(request: CreateArticleDto): void {
     this.articleService.createArticle(request).subscribe({
       next: () => {
-        this.notificationService.showSuccess('ArtÃ­culo creado con Ã©xito');
+        this.notificationService.showSuccess('Artículo creado con éxito');
         this.limpiarFormulario();
       }
     });
@@ -146,6 +146,11 @@ export class AdminAmContainerComponent implements OnInit {
       next: (storedObject) => {
         this.articleForm.get('cardImage')?.setValue(storedObject.key);
         this.cardImagePreviewUrl = storedObject.url;
+      },
+      error: () => {
+        this.articleForm.get('cardImage')?.setValue(null);
+        this.cardImagePreviewUrl = null;
+        this.notificationService.showError('Error al subir la imagen');
       }
     });
   }
@@ -162,7 +167,7 @@ export class AdminAmContainerComponent implements OnInit {
       status: this.article.status
     });
     this.cardImagePreviewUrl = this.article.cardImageUrl ?? null;
-    
+
   }
 
   limpiarFormulario(): void {
