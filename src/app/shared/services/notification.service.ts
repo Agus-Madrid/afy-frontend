@@ -1,0 +1,35 @@
+import { inject, Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { disableHttpErrorInterceptor, enableHttpErrorInterceptor } from '../interceptors/http-error.interceptor';
+@Injectable({
+  providedIn: 'root'
+})
+
+export class NotificationService {
+
+  toastr = inject(ToastrService);
+
+  showSuccess(message: string, title?: string): void {
+    this.toastr.success(message, title);
+  }
+
+  showError(message: string, title?: string): void {
+    this.toastr.error(message, title);
+  }
+
+  showInfo(message: string, title?: string): void {
+    this.toastr.info(message, title);
+  }
+
+  showWarning(message: string, title?: string): void {
+    this.toastr.warning(message, title);
+  }
+
+  disableInterceptorMessages(): void {
+    disableHttpErrorInterceptor();
+  }
+
+  enableInterceptorMessages(): void {
+    enableHttpErrorInterceptor();
+  }
+}

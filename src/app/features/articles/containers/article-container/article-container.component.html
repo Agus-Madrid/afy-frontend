@@ -1,0 +1,13 @@
+<app-article-ui
+  [actualGenre]="actualGenre"
+  [articles]="articles()"
+  [loading]="loading()"
+  [error]="error()"
+
+  (nextGenre)="nextGenre()"
+  (prevGenre)="prevGenre()"
+  (retry)="retry()"
+  (readMore)="openArticle($event)"
+  >
+</app-article-ui>
+

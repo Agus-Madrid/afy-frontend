@@ -1,24 +1,38 @@
-<header class="app-header p-3 text-white">
-  <div class="container col-12">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-
-      <div class="logo d-flex justify-content-center col-2">
-        <h6 class="mb-0 fw-bold text-white" style="font-size: 1.5em; cursor: pointer;">AFY</h6>
-      </div>
-
-      <ul class="nav col-7 b-2 d-flex justify-content-center mb-md-0 gap-4">
-        <li><a href="#" class="nav-link px-2 text-white">Home</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+<nav class="navbar navbar-expand-lg px-4" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">AFY</a>
+    <button 
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarColor01"
+      aria-controls="navbarColor01"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+      (click)="toggleMenu()">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01" [class.show]="isMenuOpen()">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Home
+            <span class="visually-hidden">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Pricing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
       </ul>
-
-
-      <div class="text-end col-3 d-flex justify-content-center">
-        <button type="button" (click)="handleLoginClick()" class="login btn text-white me-2" style="backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.329);">Login</button>
-        <button type="button" class="signup btn text-white me-2" style="backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.329);">Sign up</button>
+      <div [class]= "isMenuOpen() ? 'd-flex flex-column align-items-start gap-2' : 'd-flex flex-row gap-4 justify-content-center'">
+        <button type="button" (click)="handleLoginClick()" class="btn text-white custom-blur p-0">Login</button>
+        <button type="button" class="btn text-white custom-blur p-0">Sign up</button>
       </div>
     </div>
   </div>
-</header>
+</nav>  

@@ -1,0 +1,77 @@
+﻿<section class="container py-5">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h1 class="h3 mb-1 text-white">{{this.title}}</h1>
+      <p class="text-white-50 mb-0">Vista básica de alta</p>
+    </div>
+    <button class="btn btn-primary" (click)="backRequested.emit()">Volver</button>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-12 col-md-12">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="h6 text-uppercase text-muted">{{this.subtitle}}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card mt-4">
+    <form [formGroup]="formGroup()!">
+
+      <div class="card-header">Titulo</div>
+      <div class="card-body">
+        <input type="text" class="form-control" formControlName="title" [class.is-invalid]="campoInvalidoLocal('title')" />
+        <span class="text-danger" *ngIf="campoInvalidoLocal('title')">El título es obligatorio.</span>
+      </div>
+
+      <div class="card-header">Descripción</div>
+      <div class="card-body">
+        <input type="text" class="form-control" formControlName="description" [class.is-invalid]="campoInvalidoLocal('description')" />
+        <span class="text-danger" *ngIf="campoInvalidoLocal('description')">La descripción es obligatoria.</span>
+      </div>
+
+      <div class="card-header">Imagen de la card</div>
+      <div class="card-body">
+        <input
+          #fileSelector
+          type="file" id="archivo" name="archivo" 
+          accept="image/png, image/jpeg, image/webp"
+          class="form-control" (change)="manageSelectionChange($event)"/>
+          <div class="image-container mt-3">
+            <h6>Imagen actual</h6>
+            <img
+              *ngIf="cardImagePreviewUrl() || article()?.cardImageUrl"
+              [src]="cardImagePreviewUrl() || article()?.cardImageUrl"
+              alt="Imagen del artículo"
+              class="article-image-preview mt-3" />
+          </div>
+      </div>
+
+      <div class="card-header">Estado</div>
+      <div class="card-body">
+        <select class="form-select" formControlName="status" [class.is-invalid]="campoInvalidoLocal('status')">
+          <option value="DRAFT">Borrador</option>
+          <option value="PUBLISHED">Publicado</option>
+          <option value="ARCHIVED">Archivado</option>
+        </select>
+        <span class="text-danger" *ngIf="campoInvalidoLocal('status')">El estado es obligatorio.</span>
+      </div>
+
+      <div class="card-header">Género</div>
+      <div class="card-body">
+        <select class="form-select" formControlName="genre" [class.is-invalid]="campoInvalidoLocal('genre')">
+          <option *ngFor="let genre of genres()" [value]="genre.id">{{ genre.name }}</option>
+        </select>
+        <span class="text-danger" *ngIf="campoInvalidoLocal('genre')">El género es obligatorio.</span>
+      </div>
+
+      <div class="card-header">Contenido</div>
+      <div class="card-body">
+        <app-editor (contenidoGuardado)="emitirEventoGuardado($event, fileSelector)" [articleContent]="this.article()?.content"></app-editor>
+      </div>
+    </form>
+  </div>
+</section>
+

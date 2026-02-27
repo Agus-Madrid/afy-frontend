@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { ArticleDto, ArticleQueryParams } from '../models/article.model';
 import { BaseApiService } from '../../../shared/services/base-api.service';
+import { CreateArticleDto } from '../models/create-article.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,11 @@ export class ArticleService extends BaseApiService {
     return this.http.get<ArticleDto[]>(this.buildUrl(this.resourcePath), { params });
   }
 
-  createArticle(article: ArticleDto): Observable<ArticleDto> {
+  getArticleById(id: number): Observable<ArticleDto> {
+    return this.http.get<ArticleDto>(this.buildUrl(`${this.resourcePath}/${id}`));
+  }
+
+  createArticle(article: CreateArticleDto): Observable<ArticleDto> {
     return this.http.post<ArticleDto>(this.buildUrl(this.resourcePath), article);
   }
 

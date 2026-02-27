@@ -10,7 +10,7 @@ export const appRoutes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'home',
-        loadComponent: () => import('./features/articles/containers/article-page/article-page.component').then(m => m.ArticlePageComponent),
+        loadComponent: () => import('./features/articles/containers/article-container/article-container.component').then(m => m.ArticleContainerComponent),
         title: 'Inicio'
       },
       {
@@ -22,19 +22,7 @@ export const appRoutes: Routes = [
   {
     path: 'admin',
     component: AdminLayoutComponent,
-    children: [
-      { path: '', redirectTo: 'login', pathMatch: 'full' },
-      {
-        path: 'login',
-        loadComponent: () => import('./features/login/containers/login-page/login-page.component').then(m => m.LoginPageComponent),
-        title: 'Admin - Login'
-      },
-      {
-        path: 'home',
-        loadComponent: () => import('./features/admin/containers/admin-home/admin-home.component').then(m => m.AdminHomeComponent),
-        title: 'Admin - Home'
-      }
-    ]
+    loadChildren: () => import('./features/admin/admin.routes').then(m => m.routes),
   },
   { path: '**', redirectTo: 'home' }
 ];

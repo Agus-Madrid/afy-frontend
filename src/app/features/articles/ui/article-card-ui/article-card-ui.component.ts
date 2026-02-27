@@ -1,17 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, output } from '@angular/core';
 import { DatePipe, NgIf, NgStyle } from '@angular/common';
 
 import { ArticleDto } from '../../models/article.model';
 
 @Component({
-  selector: 'app-article-card',
+  selector: 'app-article-card-ui',
   standalone: true,
   imports: [NgIf, DatePipe, NgStyle],
-  templateUrl: './article-card.component.html',
-  styleUrl: './article-card.component.css'
+  templateUrl: './article-card-ui.component.html',
+  styleUrl: './article-card-ui.component.css'
 })
-export class ArticleCardComponent  {
+export class ArticleCardUiComponent {
   @Input({ required: true }) article!: ArticleDto;
+
+  readMore = output<number | null>();
 
   protected buildPreview(article: ArticleDto): string {
     const summary = article.description?.trim();
@@ -26,5 +28,6 @@ export class ArticleCardComponent  {
 
     return `${content.slice(0, 220).trimEnd()}…`;
   }
+
 }
 

@@ -4,13 +4,13 @@ import { LoginSubmitModel } from "../../models/login-submit.model";
 import { Router } from "@angular/router";
 
 @Component({
-    selector: 'app-login-page',
+    selector: 'app-login-container',
     standalone: true,
     imports: [LoginFormComponent],
     template: '<app-login-form (loginSubmit)="onLoginSubmit($event)"></app-login-form>',
 })
 
-export class LoginPageComponent {
+export class LoginContainerComponent {
 
     private readonly router = inject(Router);
 

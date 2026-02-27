@@ -1,29 +1,27 @@
-﻿import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject, signal } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
-import { fromEvent, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+﻿import { Component, OnInit, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ArticleService } from '../../services/article.service';
 import { ArticleDto } from '../../models/article.model';
-import { ArticleCardComponent } from '../../ui/article-card/article-card.component';
 import { GenreDto } from '../../models/genre.model';
 import { GenreService } from '../../services/genre.service';
 import { GenreType } from '../../enum/genre-type.enum';
+import { ArticleUiComponent } from '../../ui/article-ui/article-ui.component';
 
 @Component({
-  selector: 'app-article-page',
+  selector: 'app-article-container',
   standalone: true,
-  imports: [NgFor, NgIf, ArticleCardComponent],
-  templateUrl: './article-page.component.html'
+  imports: [ArticleUiComponent],
+  templateUrl: './article-container.component.html'
 })
-export class ArticlePageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ArticleContainerComponent implements OnInit {
   GenreType = GenreType;
 
   private readonly articleService = inject(ArticleService);
   private readonly genreService = inject(GenreService);
+  private readonly router = inject(Router);
 
   private readonly pageSize = 4;
-  private scrollSubscription?: Subscription;
   private actualGenreId: number | null = null;
 
   protected actualGenre: GenreDto | undefined = undefined;
@@ -32,22 +30,9 @@ export class ArticlePageComponent implements OnInit, AfterViewInit, OnDestroy {
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);
   protected readonly hasMore = signal(true);
-  protected readonly canScrollLeft = signal(false);
-  protected readonly canScrollRight = signal(false);
-
-  @ViewChild('scrollContainer', { static: false }) private readonly scrollContainer?: ElementRef<HTMLDivElement>;
 
   ngOnInit(): void {
     this.getGenres();
-  }
-
-  ngAfterViewInit(): void {
-    this.updateScrollButtons();
-    this.setupScrollListener();
-  }
-
-  ngOnDestroy(): void {
-    this.scrollSubscription?.unsubscribe();
   }
 
   protected loadNextPage(): void {
@@ -66,18 +51,12 @@ export class ArticlePageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadNextPage();
   }
 
-  protected trackArticleById(_index: number, article: ArticleDto): number | string {
-    return article.id ?? `${article.title}-${article.createdAt ?? _index}`;
-  }
+  protected openArticle(articleId: number | null): void {
+    if (articleId == null) {
+      return;
+    }
 
-  protected scrollLeft(): void {
-    this.prevGenre();
-    this.loadNextPage();
-  }
-
-  protected scrollRight(): void {
-    this.nextGenre();
-    this.loadNextPage();
+    this.router.navigate(['/articles', articleId]);
   }
 
   //TODO: Refactorizar estos dos métodos para no repetir código, que sean uno solo
@@ -88,6 +67,7 @@ export class ArticlePageComponent implements OnInit, AfterViewInit, OnDestroy {
     const currentIndex = this.findCurrentGenreIndex(genres);
     const nextIndex = (currentIndex + 1) % genres.length;
     this.setActiveGenreByIndex(nextIndex, genres);
+    this.loadNextPage();
   }
 
   protected prevGenre(): void {
@@ -97,29 +77,7 @@ export class ArticlePageComponent implements OnInit, AfterViewInit, OnDestroy {
     const currentIndex = this.findCurrentGenreIndex(genres);
     const prevIndex = (currentIndex - 1 + genres.length) % genres.length;
     this.setActiveGenreByIndex(prevIndex, genres);
-  }
-
-  protected onScroll(): void {
-    this.updateScrollButtons();
-  }
-
-  private setupScrollListener(): void {
-    const container = this.scrollContainer?.nativeElement;
-    if (!container) return;
-
-    this.scrollSubscription = fromEvent(container, 'scroll')
-      .pipe(debounceTime(100))
-      .subscribe(() => this.updateScrollButtons());
-  }
-
-  private updateScrollButtons(): void {
-    const container = this.scrollContainer?.nativeElement;
-    if (!container) return;
-
-    const { scrollLeft, scrollWidth, clientWidth } = container;
-
-    this.canScrollLeft.set(scrollLeft > 0);
-    this.canScrollRight.set(scrollLeft + clientWidth < scrollWidth - 1);
+    this.loadNextPage();
   }
 
   private getGenres(): void {
@@ -129,16 +87,12 @@ export class ArticlePageComponent implements OnInit, AfterViewInit, OnDestroy {
         this.setActiveGenreByIndex(0, genres);
         //Cargo acá porque depende de los generos
         this.loadNextPage();
-      },
-      error: () => {
-        // Manejo de error si es necesario
       }
     });
   }
 
   private getArticlesByGenre(): void {
-    console.log('Cargando artículos para el género ID:', this.actualGenreId);
-    this.articleService.getArticles({ page: 0, size: this.pageSize, genreId: this.actualGenreId ?? undefined})
+    this.articleService.getArticles({ page: 0, size: this.pageSize, genreId: this.actualGenreId ?? undefined, published: true })
       .subscribe({
         next: (articleBatch: any) => {
           const batch = articleBatch.content ?? [];
@@ -173,3 +127,4 @@ export class ArticlePageComponent implements OnInit, AfterViewInit, OnDestroy {
     this.genreService.loadGenreImageUrl(selectedGenre.urlImage);
   }
 }
+

@@ -1,3 +1,4 @@
+import { GenreDto } from "./genre.model";
 import { UserDto } from "./user.model";
 
 export interface ArticleDto {
@@ -7,9 +8,14 @@ export interface ArticleDto {
   summary?: string;
   author?: UserDto;
   createdAt?: string;
+  publishedAt?: string;
   updatedAt?: string;
   description?: string;
+  cardImageKey?: string | null;
   cardImageUrl?: string;
+  status?: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+  genreId?: number;
+  genre?: GenreDto;
 }
 
 export interface ArticleQueryParams
@@ -18,4 +24,5 @@ export interface ArticleQueryParams
   size?: number;
   sort?: string | string[];
   genreId?: number;
+  published?: boolean | null;
 }
